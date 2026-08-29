@@ -203,6 +203,24 @@ Tab（L1）を押すたびに 素手 → 日本刀 → 銃 → 素手 と巡回�
 
 倒れたら立ち上がらない。
 
+## ソースからビルドする
+
+1. Godot 4.7.1 を用意する。エクスポートするなら同じバージョンのエクスポートテンプレートも入れる（エディタの Editor → Manage Export Templates）。
+2. リポジトリをクローンし、`bash tools/fetch_assets.sh` を実行する。AIニケちゃんの公式 VRM と三面図を公式の配布元から取得する。
+3. Mixamo のキャラクターとモーションは再配布できないため含めていない。[docs/asset-credits.md](docs/asset-credits.md) の対応表と「ダウンロード設定」に従って、同じファイル名で `assets/characters/` と `assets/motions/` に置く。`.import` と BoneMap は入っているので、置くだけでリターゲットまで通る。
+4. 背景・床の画像（`assets/backgrounds/*.png`）も含めていない。無くても動くが、背景の板と床のテクスチャが出ない。
+5. プロジェクトをエディタで一度開いてインポートを済ませる。コマンドラインなら `godot --headless --path . --import`。
+6. エクスポートは `export_presets.cfg` の 3 プリセット（Windows Desktop / Linux / macOS）を使う。出力先は `build/` 以下で、ディレクトリは先に作っておく（無いとエクスポートが何も出さずに失敗する）。
+
+```
+mkdir -p build/windows build/linux build/macos
+godot --headless --path . --export-release "Windows Desktop" build/windows/Seventeen.exe
+godot --headless --path . --export-release "Linux" build/linux/Seventeen.x86_64
+godot --headless --path . --export-release "macOS" build/macos/Seventeen.zip
+```
+
+macOS 版のプリセットは ad-hoc 署名だけなので、初回は右クリック →「開く」で起動する。
+
 ## ドキュメント
 
 - [docs/controls.md](docs/controls.md) — 操作方法の全一覧（入力マップ、コンボツリーの全ルート、武器・回避・必殺の数値）

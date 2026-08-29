@@ -11,7 +11,7 @@
 # モーションはそのまま効く)。
 #
 # Mixamo (Adobe) 由来の FBX はライセンス上ここでは取得しない。
-# README の「開発セットアップ」と docs/asset-credits.md の対応表に従い手動で取得すること。
+# docs/asset-credits.md の対応表に従い手動で取得すること。
 set -euo pipefail
 
 # リポジトリルート (このスクリプトの1つ上) を基準にする
@@ -50,7 +50,7 @@ fi
 echo
 echo "VRM の取得は完了しました。"
 echo "Mixamo モーション (assets/motions/mixamo_*.fbx) は自動取得できません。"
-echo "README の「開発セットアップ」と docs/asset-credits.md の対応表に従って手動で配置してください。"
+echo "docs/asset-credits.md の対応表に従って手動で配置してください。"
 
 # 三面図（ニケ・AIニケちゃん・ミカゼ）。公式サイトが二次創作用に配布している設定画で、
 # テキストカードの話者タイルに使う。VRM と同じく公式 IP 資産の再ホスティングを避けるため、
