@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://bvyl6yp4t22jc"]
+
+[ext_resource type="Script" path="res://ui/result_panel.gd" id="1_result"]
+
+[node name="ResultPanel" type="CanvasLayer"]
+layer = 80
+script = ExtResource("1_result")
+
+[node name="Screen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="Panel" type="Panel" parent="Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -150.0
+offset_right = 300.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Screen/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="Rows" type="VBoxContainer" parent="Screen/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="CaptionLabel" type="Label" parent="Screen/Panel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "CLEAR"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="Screen/Panel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 52
+text = "0 点"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Screen/Panel/Margin/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PostButton" type="Button" parent="Screen/Panel/Margin/Rows/Buttons"]
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "X に投稿"
+
+[node name="CloseButton" type="Button" parent="Screen/Panel/Margin/Rows/Buttons"]
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "タイトルへ"

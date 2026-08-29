@@ -1,0 +1,9 @@
+; 4面ボス（マッドサイエンティスト）の戦いに加わるゾンビ（Ch30）。数値は雑魚と同じで、
+; 見た目だけがこの面の固有。雑魚の波には出さず、ボス戦にだけ置く。
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/zombie.tscn" id="1_zombie"]
+[ext_resource type="PackedScene" path="res://assets/characters/mixamo_ch30.fbx" id="9_model"]
+
+[node name="ZombieEscort" instance=ExtResource("1_zombie")]
+model_scene = ExtResource("9_model")

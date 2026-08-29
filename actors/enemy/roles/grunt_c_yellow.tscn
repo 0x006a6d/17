@@ -1,0 +1,19 @@
+; 通常C（Ch06）の色違い。上半身の黒（パーカー）だけを黄色にする。Ch06 は体も服も
+; 1メッシュなので、三角形の重心 Y とテクセルの暗さで服だけを切り出して塗る。
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/grunt_c.tscn" id="1_grunt_c"]
+[ext_resource type="Script" path="res://actors/shared/palette_swap.gd" id="2_palette"]
+
+[node name="EnemyCYellow" instance=ExtResource("1_grunt_c")]
+
+[node name="PaletteSwap" type="Node" parent="."]
+script = ExtResource("2_palette")
+color = Color(0.95, 0.78, 0.15, 1)
+mode = 1
+split_mesh_name = &"Ch06"
+split_surface = 0
+split_y_min = 0.95
+split_y_max = 1.62
+split_darkness = 0.22
+model_path = NodePath("../Model")

@@ -1,0 +1,151 @@
+extends Area3D
+class_name Hitbox
+
+enum ImpactKind { BLUNT, SLASH }
+
+## 攻撃判定。technical-spec §2 のとおり layer=6(hitbox) / mask=7(hurtbox)。
+## AnimationPlayer の Call Method Track から configure() と activate()/deactivate() を叩く。
+## コード側でタイマーは持たない（§6.3）。
+##
+## 命中検出は area_entered に一本化する。monitoring を有効化すると、Godot は次の
+## 物理ステップで現在の重なりを再評価し、有効化時点で既に重なっていた Hurtbox に対しても
+## area_entered を送出する。したがって「有効化時に重なり済み」「有効化中に侵入」の両方を
+## area_entered が拾う。1 回の有効化中は同一相手を二重ヒットさせない。
+##
+## 注意: activate() 直後に get_overlapping_areas() を読む方式は使わない。有効化直後は
+## 物理判定キャッシュが未更新で、重なりが反映されず取りこぼす（同一物理ステップ内で
+## activate→deactivate すると特に顕著）。判定窓は必ず複数フレーム開ける。
+
+## この Hitbox を出している本体（ノックバック方向の起点）。攻撃者。
+@export var source_body_path: NodePath = ^".."
+
+## この Hitbox が当てない相手のグループ。客は既定で除外する。
+## 犯人の近接は robber も追加し、味方誤爆による幕進行を防ぐ。
+## プレイヤー側は exempt_body にロックオン対象を指定し、その本体だけ除外を無視する。
+@export var ignore_groups: Array[StringName] = [&"civilian"]
+
+## 奥行き（Z）の許容差（m）。攻撃者本体と相手本体の Z 差がこれを超えると当たらない
+## （ベルトスクロールの「段がずれていると当たらない」。technical-spec §7.2）。
+## 負の値で無効化する。
+@export var depth_tolerance: float = 0.6
+
+## 命中表示の種別。刀ヒットボックスだけ SLASH を指定し、打撃とは区別する。
+@export var impact_kind: ImpactKind = ImpactKind.BLUNT
+
+## ignore_groups の例外。この本体だけは除外を無視して当てる。
+## ロックオンが無い現行設計では誰も設定しない（API は残す）。
+var exempt_body: Node3D = null
+
+var damage: float = 0.0
+var knockback: float = 0.0
+var lethal: bool = false
+## 刃などが接触点を横切るワールド方向。斬撃の血しぶき方向へ渡す。
+var _impact_flow_direction: Vector3 = Vector3.ZERO
+
+var _source_body: Node3D = null
+var _active: bool = false
+## 1 回の有効化中に同じ相手を二重ヒットさせないためのセット。
+var _already_hit: Array[Node] = []
+
+## この Hitbox が誰かに当たった瞬間に送る（攻撃側の手応え演出のトリガに使う）。
+signal hit_landed(target: Node3D)
+## 成立した近接命中と、Hurtbox が表示へ渡した同じ接触座標。
+signal impact_landed(target: Node3D, impact_position: Vector3)
+## 相手の方向防御（ガード・盾）に弾かれた瞬間に送る。命中とは区別する。
+## 空振りと「防がれた」を同じ扱いにすると、攻めが通っているのか分からなくなる。
+signal hit_blocked(target: Node3D)
+
+
+func _ready() -> void:
+	collision_layer = 1 << 5   # layer 6 = hitbox
+	collision_mask = 1 << 6    # mask 7 = hurtbox
+	monitoring = false
+	monitorable = false
+	_source_body = get_node_or_null(source_body_path) as Node3D
+	area_entered.connect(_on_area_entered)
+
+
+## Call Method Track から呼ぶ。有効化のたびに二重ヒット防止セットをリセットする。
+func configure(new_damage: float, new_knockback: float, new_lethal: bool) -> void:
+	damage = new_damage
+	knockback = new_knockback
+	lethal = new_lethal
+	_already_hit.clear()
+
+
+## Call Method Track（またはコード）から。判定を有効化する。
+## 重なり済み・侵入いずれの相手も area_entered（次の物理ステップ）で拾う。
+func activate() -> void:
+	_active = true
+	monitoring = true
+
+
+## 判定を無効化する。
+func deactivate() -> void:
+	_active = false
+	monitoring = false
+
+
+## 被弾処理（area_entered → Hurtbox → Health → ダウン）の最中から無効化する場合に使う。
+## 信号の処理中に monitoring を直接書き換えると Godot が弾くため
+## （"Function blocked during in/out signal"）、フラグの反映だけ物理ステップの
+## 終わりへ回す。判定そのものは _active で即座に閉じるので、1 フレームぶん
+## monitoring が残っても命中はしない。
+func deactivate_deferred() -> void:
+	_active = false
+	set_deferred("monitoring", false)
+
+
+func source_body() -> Node3D:
+	return _source_body
+
+
+func set_impact_flow_direction(direction: Vector3) -> void:
+	_impact_flow_direction = direction.normalized() \
+		if not direction.is_zero_approx() else Vector3.ZERO
+
+
+func impact_flow_direction() -> Vector3:
+	return _impact_flow_direction
+
+
+func _on_area_entered(area: Area3D) -> void:
+	if _active:
+		_try_hit(area)
+
+
+func _try_hit(area: Area3D) -> void:
+	var hurtbox := area as Hurtbox
+	if hurtbox == null:
+		return
+	var target := hurtbox.owner_body()
+	if target == null or target == _source_body:
+		return
+	if target != exempt_body:
+		for group: StringName in ignore_groups:
+			if target.is_in_group(group):
+				return
+	if _already_hit.has(target):
+		return
+	# 奥行きがずれている相手には当たらない。hit_landed も送らない（偽の手応えを返さない）。
+	if depth_tolerance >= 0.0 and _source_body != null:
+		if absf(target.global_position.z - _source_body.global_position.z) > depth_tolerance:
+			return
+	# 対象固有の方向防御（盾、将来のガード等）を役割非依存で問い合わせる。
+	# 防御成立時は命中リストにも加えず、receive_hit / hit_landed の双方を呼ばない。
+	# hit_landed を起点にするヒットストップとカメラシェイクも発生しない。
+	if target.has_method("blocks_hit_from"):
+		var attacker_position: Vector3 = (
+			_source_body.global_position if _source_body != null else global_position)
+		var blocked: bool = bool(target.call("blocks_hit_from", attacker_position))
+		if blocked:
+			hit_blocked.emit(target)
+			return
+	var landed: bool = hurtbox.receive_hit(self)
+	if not landed:
+		# 成立しなかった追い打ちは盾による防御と同じく命中扱いにしない。
+		# _already_hit にも残さず、同じ判定窓で状況が変われば再評価可能にする。
+		return
+	_already_hit.append(target)
+	hit_landed.emit(target)
+	impact_landed.emit(target, hurtbox.last_melee_impact_position())

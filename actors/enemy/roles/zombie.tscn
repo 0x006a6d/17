@@ -1,0 +1,39 @@
+; 4面（工場）の雑魚。見た目は他の面と同じ通常型（Ch01）のまま、待機・歩き・攻撃だけを
+; ゾンビのモーションへ差し替える。歩幅の実測は 0.351 m/s なので、接近速度もそれに
+; 合わせて落とす（速いままだと足が滑る）。
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/enemy.tscn" id="1_enemy"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_zombie_walk.fbx" id="2_walk"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_zombie_attack.fbx" id="3_attack"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_zombie_idle.fbx" id="5_idle"]
+[ext_resource type="Script" path="res://actors/enemy/enemy_attack_profile.gd" id="4_profile"]
+
+[sub_resource type="Resource" id="Attack_zombie"]
+script = ExtResource("4_profile")
+clip = ExtResource("3_attack")
+measured_peak_time = 1.132
+source_clip_length = 2.633
+min_distance = 0.0
+max_distance = 1.5
+telegraph = 0.45
+active = 0.2
+recovery = 0.55
+damage = 1200.0
+knockback = 3.0
+lunge_speed = 1.2
+
+[node name="Zombie" instance=ExtResource("1_enemy")]
+chase_speed = 1.05
+staggers = false
+depth_align_speed = 1.0
+attack_profiles = Array[ExtResource("4_profile")]([SubResource("Attack_zombie")])
+
+[node name="Animator" parent="."]
+walk_natural_speed = 0.351
+run_natural_speed = 0.351
+locomotion_speed_limits = Vector2(0.55, 3.0)
+clip_idle = ExtResource("5_idle")
+clip_walk = ExtResource("2_walk")
+clip_run = ExtResource("2_walk")
+clip_attack = ExtResource("3_attack")

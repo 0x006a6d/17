@@ -1,0 +1,67 @@
+; 3面ボス GUNNER（Ch15＋ライフル）。距離を保って正面へ撃つ。
+; 保つ距離は画面の見える幅（片側 4.7m 前後）に収まる値にする。
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/bruiser.tscn" id="1_bruiser"]
+[ext_resource type="Script" path="res://actors/enemy/bosses/gun_boss.gd" id="2_script"]
+[ext_resource type="PackedScene" path="res://assets/characters/mixamo_ch15.fbx" id="3_model"]
+[ext_resource type="Script" path="res://actors/shared/weapon_holder.gd" id="4_holder"]
+[ext_resource type="Script" path="res://actors/player/player_weapon_grip.gd" id="5_grip"]
+[ext_resource type="Script" path="res://actors/shared/weapon_loadout.gd" id="6_loadout"]
+[ext_resource type="Script" path="res://actors/shared/hitscan_gun.gd" id="7_gun"]
+[ext_resource type="Script" path="res://actors/enemy/enemy_gun_fx.gd" id="13_gun_fx"]
+[ext_resource type="Script" path="res://actors/enemy/enemy_left_grip.gd" id="14_left_grip"]
+[ext_resource type="PackedScene" path="res://assets/weapons/rifle.glb" id="8_rifle"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_rifle_idle.fbx" id="9_idle"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_rifle_walk.fbx" id="10_walk"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_rifle_run.fbx" id="11_run"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_rifle_fire.fbx" id="12_fire"]
+
+[node name="Stage3Boss" instance=ExtResource("1_bruiser")]
+script = ExtResource("2_script")
+model_scene = ExtResource("3_model")
+boss_name = "GUNNER"
+gun_preferred_distance = 4.5
+gun_retreat_distance = 3.0
+gun_muzzle_height = 1.05
+gun_muzzle_forward_offset = 0.79
+fire_sound = &"rifle_shot"
+
+[node name="Animator" parent="."]
+run_speed_threshold = 2.6
+walk_natural_speed = 0.9
+run_natural_speed = 2.48
+clip_idle = ExtResource("9_idle")
+clip_walk = ExtResource("10_walk")
+clip_run = ExtResource("11_run")
+clip_fire = ExtResource("12_fire")
+
+[node name="WeaponHolder" type="Node" parent="."]
+script = ExtResource("4_holder")
+
+[node name="WeaponGrip" type="Node" parent="."]
+script = ExtResource("5_grip")
+
+[node name="WeaponLoadout" type="Node" parent="."]
+script = ExtResource("6_loadout")
+weapon_scene = ExtResource("8_rifle")
+grip_offset = Vector3(0.0317, 0.0710, 0.0132)
+grip_rotation = Vector3(-4.3, 174.2, 74.5)
+grip_scale = Vector3(0.1456, 0.1456, 0.1456)
+grip_profile = 1
+grip_axis_start = Vector3(-0.1616, -0.1287, 0)
+grip_axis_end = Vector3(-0.037, -0.2599, 0)
+grip_model_radius = 0.0742
+
+[node name="LeftGrip" type="Node" parent="."]
+script = ExtResource("14_left_grip")
+axis_start = Vector3(1.5043, 0.508, 0)
+axis_end = Vector3(2.4871, 0.508, 0)
+model_radius = 0.1148
+
+[node name="HitscanGun" type="Node3D" parent="."]
+script = ExtResource("7_gun")
+
+[node name="GunFx" type="Node3D" parent="."]
+script = ExtResource("13_gun_fx")
+muzzle_forward_offset = 0.0

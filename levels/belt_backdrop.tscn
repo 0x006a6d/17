@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://pr5l0o7eqla3"]
+
+[ext_resource type="Script" path="res://levels/belt_backdrop.gd" id="1_backdrop"]
+
+[node name="BeltBackdrop" type="Node3D"]
+script = ExtResource("1_backdrop")
+layers = [{
+"texture": null,
+"y_center": 6.0,
+"height_m": 14.0,
+"z_depth": -12.0,
+"parallax": 0.15,
+"tile_width_m": 40.0
+}, {
+"texture": null,
+"y_center": 4.0,
+"height_m": 10.0,
+"z_depth": -7.0,
+"parallax": 0.4,
+"tile_width_m": 26.0
+}]

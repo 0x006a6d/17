@@ -1,0 +1,15 @@
+; 通常B（Ch28）の色違い。黒い上下をピンクにする。元が黒いので掛け算では明るく
+; できず、テクスチャを白に置いて単色で塗る。
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/grunt_b.tscn" id="1_grunt_b"]
+[ext_resource type="Script" path="res://actors/shared/palette_swap.gd" id="2_palette"]
+
+[node name="EnemyBPink" instance=ExtResource("1_grunt_b")]
+
+[node name="PaletteSwap" type="Node" parent="."]
+script = ExtResource("2_palette")
+target_mesh_names = Array[StringName]([&"Ch28_Hoody", &"Ch28_Pants"])
+color = Color(0.93, 0.4, 0.6, 1)
+mode = 1
+model_path = NodePath("../Model")

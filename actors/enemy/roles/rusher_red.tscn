@@ -1,0 +1,14 @@
+; 突進（Ch08）の色違い。下半身（スウェット）を赤にする。元が明るいので掛ける。
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/rusher.tscn" id="1_rusher"]
+[ext_resource type="Script" path="res://actors/shared/palette_swap.gd" id="2_palette"]
+
+[node name="RusherRed" instance=ExtResource("1_rusher")]
+
+[node name="PaletteSwap" type="Node" parent="."]
+script = ExtResource("2_palette")
+target_mesh_names = Array[StringName]([&"Ch08_Pants"])
+color = Color(0.78, 0.12, 0.12, 1)
+mode = 0
+model_path = NodePath("../Model")

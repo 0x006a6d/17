@@ -1,0 +1,24 @@
+; 5面でニケが呼ぶ増援のうち、ニケの素体。4面で床に転がっていた「次の身体」と同じ
+; VRM を使い、ヘアピンを切り、全サーフェスを白へ塗る（BlankSkin）。VRM ファイル
+; 自体は改変せず、ランタイムに上書きするだけ（technical-spec §3.5 と同じ方式）。
+; MToon なので ToonSkin は掛けない。攻撃は通常型と同じ（ゾンビ状態は4面だけ）。
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/enemy.tscn" id="1_enemy"]
+[ext_resource type="PackedScene" uid="uid://celvukntwnoc7" path="res://assets/vrm/nikechan_player.vrm" id="2_vrm"]
+[ext_resource type="Script" path="res://actors/boss/nike_skin.gd" id="5_nike_skin"]
+[ext_resource type="Script" path="res://actors/shared/blank_skin.gd" id="6_blank_skin"]
+
+[node name="NikeBlank" instance=ExtResource("1_enemy")]
+model_scene = ExtResource("2_vrm")
+staggers = false
+toon_skin = false
+
+[node name="NikeSkin" type="Node" parent="."]
+script = ExtResource("5_nike_skin")
+model_path = NodePath("../Model")
+recolor_shirt = false
+
+[node name="BlankSkin" type="Node" parent="."]
+script = ExtResource("6_blank_skin")
+model_path = NodePath("../Model")

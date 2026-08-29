@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://cbelttest0001"]
+
+[ext_resource type="Script" path="res://levels/belt_test.gd" id="1_stage"]
+[ext_resource type="PackedScene" uid="uid://cplayr0nikeche01" path="res://actors/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://cdummy0nikeche01" path="res://actors/enemy/dummy.tscn" id="3_dummy"]
+[ext_resource type="Script" path="res://levels/belt_camera.gd" id="4_camera"]
+[ext_resource type="Script" path="res://fx/camera_shake.gd" id="5_shake"]
+[ext_resource type="PackedScene" path="res://ui/hud.tscn" id="6_hud"]
+
+[sub_resource type="Environment" id="Env_stage"]
+background_mode = 1
+background_color = Color(0.09, 0.1, 0.13, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.56, 0.62, 1)
+ambient_light_energy = 0.5
+tonemap_mode = 2
+
+[sub_resource type="BoxShape3D" id="Box_floor"]
+size = Vector3(60, 0.5, 8)
+
+[sub_resource type="BoxMesh" id="Mesh_floor"]
+size = Vector3(60, 0.5, 8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.32, 0.33, 0.36, 1)
+
+[node name="BeltTest" type="Node3D"]
+script = ExtResource("1_stage")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7, -0.5, 0.5, 0, 0.7, 0.7, -0.7, -0.5, 0.5, 0, 6, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_stage")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -0.25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("Box_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("Mesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="BeltCamera" type="Camera3D" parent="."]
+script = ExtResource("4_camera")
+target_path = NodePath("../Player")
+x_min = 0.0
+x_max = 40.0
+
+[node name="CameraShake" type="Node" parent="BeltCamera"]
+script = ExtResource("5_shake")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Dummy1" parent="." instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.2, 0)
+
+[node name="Dummy2" parent="." instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, 1.2)
+
+[node name="Dummy3" parent="." instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0.2, -1.2)
+
+[node name="Hud" parent="." instance=ExtResource("6_hud")]
+health_path = NodePath("../Player/Health")
+camera_path = NodePath("../BeltCamera")
+
+[node name="InputLog" parent="Hud/Screen" index="3"]
+melee_path = NodePath("../../../Player/PlayerMelee")
+hitbox_path = NodePath("../../../Player/Model/MeleeHitbox")

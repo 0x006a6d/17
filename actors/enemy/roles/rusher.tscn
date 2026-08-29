@@ -1,0 +1,10 @@
+; enemy.tscn を継承し、共通構造を二重管理せず役割差のスクリプトと見た目だけを指定する。
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/enemy.tscn" id="1_enemy"]
+[ext_resource type="Script" path="res://actors/enemy/roles/rusher.gd" id="2_rusher"]
+[ext_resource type="PackedScene" path="res://assets/characters/mixamo_ch08.fbx" id="9_model"]
+
+[node name="Rusher" instance=ExtResource("1_enemy")]
+script = ExtResource("2_rusher")
+model_scene = ExtResource("9_model")

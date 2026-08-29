@@ -1,0 +1,63 @@
+; 4面ボス マッドサイエンティスト（Ch16_boss＋拳銃）。
+; AIニケちゃんの「次の身体」を正面に抱えて盾にし、放したあとは距離を取って撃つ。
+; 銃は主人公と同じ pistol.glb で、握りの数値も player_weapon.gd の拳銃と同じ。
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/shielder.tscn" id="1_shielder"]
+[ext_resource type="PackedScene" path="res://assets/characters/mixamo_ch16_boss.fbx" id="2_model"]
+[ext_resource type="Script" path="res://actors/shared/weapon_holder.gd" id="6_holder"]
+[ext_resource type="Script" path="res://actors/player/player_weapon_grip.gd" id="7_grip"]
+[ext_resource type="Script" path="res://actors/shared/weapon_loadout.gd" id="8_loadout"]
+[ext_resource type="Script" path="res://actors/shared/hitscan_gun.gd" id="9_gun"]
+[ext_resource type="Script" path="res://actors/enemy/enemy_gun_fx.gd" id="10_gun_fx"]
+[ext_resource type="PackedScene" path="res://assets/weapons/pistol.glb" id="11_pistol"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_pistol_fire.fbx" id="12_pistol_fire"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_pistol_walk.fbx" id="13_walk"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_pistol_run.fbx" id="14_run"]
+
+[node name="Stage4Boss" instance=ExtResource("1_shielder")]
+model_scene = ExtResource("2_model")
+boss_name = "マッドサイエンティスト"
+adds_hp_ratios = Array[float]([0.3])
+adds_count = 4
+attack_damage_override = -1.0
+gun_damage = 4500.0
+gun_range = 22.0
+gun_fire_interval = 0.9
+burst_count = 1
+gun_preferred_distance = 4.5
+gun_retreat_distance = 3.0
+gun_muzzle_height = 1.05
+gun_muzzle_forward_offset = 0.4
+fire_sound = &"gun_shot"
+
+[node name="Animator" parent="."]
+clip_idle = ExtResource("12_pistol_fire")
+idle_static_pose = true
+clip_walk = ExtResource("13_walk")
+clip_run = ExtResource("14_run")
+clip_fire = ExtResource("12_pistol_fire")
+
+[node name="WeaponHolder" type="Node" parent="."]
+script = ExtResource("6_holder")
+
+[node name="WeaponGrip" type="Node" parent="."]
+script = ExtResource("7_grip")
+
+[node name="WeaponLoadout" type="Node" parent="."]
+script = ExtResource("8_loadout")
+weapon_scene = ExtResource("11_pistol")
+grip_offset = Vector3(0.0141, 0.0885, 0.0089)
+grip_rotation = Vector3(0.2, -179.9, 80.6)
+grip_scale = Vector3(0.12, 0.12, 0.12)
+grip_profile = 1
+grip_axis_start = Vector3(0.0993, -0.1167, 0.0039)
+grip_axis_end = Vector3(0.041, -0.4347, 0)
+grip_model_radius = 0.133333
+
+[node name="HitscanGun" type="Node3D" parent="."]
+script = ExtResource("9_gun")
+
+[node name="GunFx" type="Node3D" parent="."]
+script = ExtResource("10_gun_fx")
+muzzle_forward_offset = 0.0

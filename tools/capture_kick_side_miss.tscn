@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://tools/capture_kick_side.gd" type="Script" id="1"]
+
+[node name="CaptureKickSideMiss" type="Node3D"]
+script = ExtResource("1")
+capture_name = "kick_side_miss"
+target_x = 2.0

@@ -1,0 +1,120 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://ui/title_screen.gd" id="1_title"]
+[ext_resource type="Texture2D" path="res://assets/ui/title_screen_seventeen.png" id="2_cover"]
+[ext_resource type="Script" path="res://ui/enter_prompt.gd" id="3_enter_prompt"]
+[ext_resource type="Texture2D" path="res://assets/ui/parental_advisory_drastic_content_2x.png" id="4_sticker"]
+[ext_resource type="Shader" path="res://ui/sticker_mask.gdshader" id="5_mask"]
+[ext_resource type="Shader" path="res://ui/lime_key.gdshader" id="6_lime_key"]
+
+[sub_resource type="AtlasTexture" id="Atlas_title"]
+atlas = ExtResource("2_cover")
+region = Rect2(0, 0, 930, 280)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_woman"]
+atlas = ExtResource("2_cover")
+region = Rect2(365, 720, 889, 534)
+filter_clip = true
+
+[sub_resource type="ShaderMaterial" id="Material_lime_key"]
+shader = ExtResource("6_lime_key")
+
+[sub_resource type="ShaderMaterial" id="Material_rounded_sticker"]
+shader = ExtResource("5_mask")
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_title")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="LimeBackground" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.65098, 0.882353, 0.196078, 1)
+
+[node name="TitleImage" type="TextureRect" parent="."]
+texture_filter = 2
+material = SubResource("Material_lime_key")
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -465.0
+offset_top = 8.0
+offset_right = 465.0
+offset_bottom = 288.0
+grow_horizontal = 2
+mouse_filter = 2
+texture = SubResource("Atlas_title")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WomanImage" type="TextureRect" parent="."]
+texture_filter = 2
+material = SubResource("Material_lime_key")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -510.0
+offset_top = -307.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = SubResource("Atlas_woman")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EnterPrompt" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_enter_prompt")
+
+[node name="AdvisorySticker" type="TextureRect" parent="."]
+texture_filter = 2
+material = SubResource("Material_rounded_sticker")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -219.0
+offset_right = -24.0
+offset_bottom = -33.0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = -0.0349066
+pivot_offset = Vector2(138, 93)
+mouse_filter = 2
+texture = ExtResource("4_sticker")
+expand_mode = 1
+stretch_mode = 5

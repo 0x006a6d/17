@@ -1,0 +1,156 @@
+[gd_scene load_steps=30 format=3 uid="uid://cplayr0nikeche01"]
+
+[ext_resource type="Script" path="res://actors/player/player.gd" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://celvukntwnoc7" path="res://assets/vrm/nikechan_player.vrm" id="2_vrm"]
+[ext_resource type="Script" path="res://actors/player/player_melee.gd" id="4_melee"]
+[ext_resource type="Script" path="res://actors/shared/weapon_holder.gd" id="14_holder"]
+[ext_resource type="Script" path="res://actors/player/player_weapon.gd" id="15_weapon"]
+[ext_resource type="Script" path="res://actors/player/player_score.gd" id="90_score"]
+[ext_resource type="Script" path="res://actors/player/player_instant_kill.gd" id="95_instant_kill"]
+[ext_resource type="Script" path="res://fx/attack_cry_3d.gd" id="96_attack_cry"]
+[ext_resource type="Script" path="res://actors/player/player_sfx.gd" id="91_sfx"]
+[ext_resource type="Script" path="res://actors/player/player_action.gd" id="16_action"]
+[ext_resource type="Script" path="res://actors/player/player_action_anim.gd" id="17_action_anim"]
+[ext_resource type="Script" path="res://actors/player/player_gun_fx.gd" id="18_gun_fx"]
+[ext_resource type="Script" path="res://actors/player/player_katana_combo.gd" id="19_katana_combo"]
+[ext_resource type="Script" path="res://actors/player/player_weapon_grip.gd" id="20_weapon_grip"]
+[ext_resource type="Script" path="res://fx/katana_swing_3d.gd" id="21_katana_fx"]
+[ext_resource type="Script" path="res://actors/shared/hitbox.gd" id="5_hitbox"]
+[ext_resource type="Script" path="res://actors/shared/health.gd" id="7_health"]
+[ext_resource type="Script" path="res://actors/shared/hurtbox.gd" id="8_hurtbox"]
+[ext_resource type="Script" path="res://fx/damage_feedback_3d.gd" id="10_feedback"]
+[ext_resource type="Script" path="res://fx/impact_slash_3d.gd" id="11_trail"]
+[ext_resource type="Script" path="res://actors/shared/model_blink.gd" id="22_blink"]
+[ext_resource type="Script" path="res://actors/shared/voice_reactions.gd" id="92_voice"]
+[ext_resource type="Script" path="res://fx/dropkick_vfx_3d.gd" id="23_dropkick_vfx"]
+[ext_resource type="AudioStream" path="res://assets/voice/ai_nike_hurt_a.wav" id="93_v_hurt_a"]
+[ext_resource type="AudioStream" path="res://assets/voice/ai_nike_hurt_b.wav" id="94_v_hurt_b"]
+[ext_resource type="AudioStream" path="res://assets/voice/ai_nike_hurt_c.wav" id="95_v_hurt_c"]
+[ext_resource type="AudioStream" path="res://assets/voice/ai_nike_down_a.wav" id="96_v_down_a"]
+[ext_resource type="AudioStream" path="res://assets/voice/ai_nike_down_b.wav" id="97_v_down_b"]
+
+[sub_resource type="CapsuleShape3D" id="Capsule_body"]
+radius = 0.35
+height = 1.6
+
+[sub_resource type="SphereShape3D" id="Sphere_hitbox"]
+radius = 0.45
+
+[sub_resource type="SphereShape3D" id="Sphere_katana"]
+radius = 0.65
+
+[sub_resource type="CapsuleShape3D" id="Capsule_hurt"]
+radius = 0.45
+height = 1.7
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="Model" parent="." instance=ExtResource("2_vrm")]
+
+[node name="MeleeHitbox" type="Area3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.5)
+collision_layer = 32
+collision_mask = 64
+monitoring = false
+script = ExtResource("5_hitbox")
+source_body_path = NodePath("../..")
+ignore_groups = Array[StringName]([&"hostage"])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/MeleeHitbox"]
+shape = SubResource("Sphere_hitbox")
+
+[node name="KatanaHitbox" type="Area3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.75)
+collision_layer = 32
+collision_mask = 64
+monitoring = false
+script = ExtResource("5_hitbox")
+source_body_path = NodePath("../..")
+ignore_groups = Array[StringName]([&"hostage"])
+impact_kind = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/KatanaHitbox"]
+shape = SubResource("Sphere_katana")
+
+[node name="PlayerMelee" type="Node" parent="."]
+script = ExtResource("4_melee")
+model_path = NodePath("../Model")
+
+[node name="PlayerActionAnim" type="Node" parent="."]
+script = ExtResource("17_action_anim")
+
+[node name="WeaponHolder" type="Node" parent="."]
+script = ExtResource("14_holder")
+model_path = NodePath("../Model")
+
+[node name="PlayerKatanaCombo" type="Node" parent="."]
+script = ExtResource("19_katana_combo")
+
+[node name="PlayerKatanaSwing3D" type="Node3D" parent="."]
+script = ExtResource("21_katana_fx")
+
+[node name="PlayerWeaponGrip" type="Node" parent="."]
+script = ExtResource("20_weapon_grip")
+
+[node name="PlayerWeapon" type="Node" parent="."]
+script = ExtResource("15_weapon")
+
+[node name="PlayerScore" type="Node" parent="."]
+script = ExtResource("90_score")
+
+[node name="AttackCry3D" type="Node3D" parent="."]
+script = ExtResource("96_attack_cry")
+
+[node name="PlayerInstantKill" type="Node" parent="."]
+script = ExtResource("95_instant_kill")
+
+[node name="PlayerSfx" type="Node" parent="."]
+script = ExtResource("91_sfx")
+
+[node name="PlayerGunFx" type="Node3D" parent="."]
+script = ExtResource("18_gun_fx")
+muzzle_forward_offset = 0.0
+
+[node name="PlayerAction" type="Node" parent="."]
+script = ExtResource("16_action")
+
+[node name="DropkickVfx3D" type="Node3D" parent="."]
+script = ExtResource("23_dropkick_vfx")
+
+[node name="ImpactSlash3D" type="Node3D" parent="."]
+script = ExtResource("11_trail")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("Capsule_body")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("7_health")
+max_hp = 30000.0
+stagger_threshold = 1
+
+[node name="DamageFeedback3D" type="Node3D" parent="."]
+script = ExtResource("10_feedback")
+damage_color = Color(1, 0.24, 0.18, 1)
+
+[node name="RecoveryBlink" type="Node" parent="."]
+script = ExtResource("22_blink")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("8_hurtbox")
+owner_body_path = NodePath("..")
+health_path = NodePath("../Health")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("Capsule_hurt")
+
+[node name="Voice" type="Node" parent="."]
+script = ExtResource("92_voice")
+hurt_clips = Array[AudioStream]([ExtResource("93_v_hurt_a"), ExtResource("94_v_hurt_b"), ExtResource("95_v_hurt_c")])
+down_clips = Array[AudioStream]([ExtResource("96_v_down_a"), ExtResource("97_v_down_b")])

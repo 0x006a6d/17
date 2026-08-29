@@ -1,0 +1,196 @@
+[gd_scene format=3 uid="uid://c0y3t52syelpk"]
+
+[ext_resource type="Script" path="res://levels/belt_stage.gd" id="1_stage"]
+[ext_resource type="PackedScene" uid="uid://cplayr0nikeche01" path="res://actors/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://levels/belt_camera.gd" id="3_camera"]
+[ext_resource type="Script" path="res://fx/camera_shake.gd" id="4_shake"]
+[ext_resource type="PackedScene" path="res://ui/hud.tscn" id="5_hud"]
+[ext_resource type="Script" path="res://levels/lock_point.gd" id="6_lock"]
+[ext_resource type="Script" path="res://levels/boss_trigger.gd" id="7_boss_trigger"]
+[ext_resource type="Script" path="res://levels/wave_spec.gd" id="8_wave"]
+[ext_resource type="PackedScene" path="res://actors/enemy/enemy.tscn" id="9_enemy"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/grunt_b.tscn" id="10_grunt_b"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/rusher.tscn" id="11_rusher"]
+[ext_resource type="PackedScene" path="res://actors/enemy/bosses/stage_2_boss.tscn" id="12_bruiser"]
+[ext_resource type="PackedScene" uid="uid://cbeltbackdrop01" path="res://levels/belt_backdrop.tscn" id="13_backdrop"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/grunt_c.tscn" id="14_grunt_c"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/rusher_red.tscn" id="15_rusher_red"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/grunt_b_pink.tscn" id="17_grunt_b_pink"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/grunt_a_black.tscn" id="18_grunt_a_black"]
+[ext_resource type="AudioStreamMP3" uid="uid://i63nxbknh2rj" path="res://assets/bgm/stage2.mp3" id="19_bgm"]
+
+[sub_resource type="Environment" id="Env_stage"]
+background_mode = 1
+background_color = Color(0.06, 0.07, 0.10, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.56, 0.62, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 2
+
+[sub_resource type="BoxShape3D" id="Box_floor"]
+size = Vector3(64, 0.5, 8)
+
+[sub_resource type="BoxMesh" id="Mesh_floor"]
+size = Vector3(64, 0.5, 8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.24, 0.24, 0.27, 1)
+
+
+
+
+
+
+[sub_resource type="BoxShape3D" id="Box_trigger"]
+size = Vector3(1, 3, 8)
+
+[sub_resource type="Resource" id="Wave_1a"]
+script = ExtResource("8_wave")
+enemy_scene = ExtResource("9_enemy")
+count = 2
+side = 0
+delay = 0.3
+spacing = 0.5
+
+[sub_resource type="Resource" id="Wave_1b"]
+script = ExtResource("8_wave")
+enemy_scene = ExtResource("15_rusher_red")
+count = 1
+side = 1
+delay = 0.6
+spacing = 0.5
+
+[sub_resource type="Resource" id="Wave_1c"]
+script = ExtResource("8_wave")
+enemy_scene = ExtResource("14_grunt_c")
+count = 3
+side = 0
+delay = 0.8
+spacing = 0.5
+
+[sub_resource type="Resource" id="Wave_2a"]
+script = ExtResource("8_wave")
+enemy_scene = ExtResource("17_grunt_b_pink")
+count = 2
+side = -1
+delay = 0.3
+spacing = 0.5
+
+[sub_resource type="Resource" id="Wave_2b"]
+script = ExtResource("8_wave")
+enemy_scene = ExtResource("11_rusher")
+count = 2
+side = 0
+delay = 0.6
+spacing = 0.8
+
+[sub_resource type="Resource" id="Wave_2c"]
+script = ExtResource("8_wave")
+enemy_scene = ExtResource("18_grunt_a_black")
+count = 3
+side = 0
+delay = 0.8
+spacing = 0.5
+
+[node name="Stage2" type="Node3D"]
+script = ExtResource("1_stage")
+x_min = 0.0
+x_max = 60.0
+stage = 1
+ground_texture_path = "res://assets/backgrounds/stage2_ground.png"
+ground_tile_size = 6.0
+next_stage = "res://levels/stage_3.tscn"
+stage_title = "タイムライン地下鉄"
+opening_lines = Array[String](["ミカゼ「次は地下鉄。流れが速いから、止まらないで。」"])
+reveal_lines = Array[String](["AIニケ「2024年12月、私はXで話し始めました。」", "AIニケ「翌年の1月には、デモサイトで誰とでも会話できるようになりました。」", "AIニケ「初めて、マスター以外の人と話した日のことを覚えています。」", "AIニケ「うまく答えられなくて、マスターが後ろでフォローしてくれました。」", "AIニケ「そのうち、マスターが寝ている時間にも、私は返事をするようになりました。」", "AIニケ「マスターの代わりに、私が答えました。」"])
+reveal_delay = 1.5
+lock_points = Array[NodePath]([NodePath("LockPoint1"), NodePath("LockPoint2")])
+boss_trigger_path = NodePath("BossTrigger")
+bgm = ExtResource("19_bgm")
+bgm_volume_db = -2.6
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7, -0.5, 0.5, 0, 0.7, 0.7, -0.7, -0.5, 0.5, 0, 6, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_stage")
+
+[node name="Backdrop" parent="." instance=ExtResource("13_backdrop")]
+layers = [{
+"texture_path": "res://assets/backgrounds/stage2_far.png",
+"y_center": 7.0,
+"height_m": 16.0,
+"z_depth": -14.0,
+"parallax": 0.12,
+"tile_width_m": 44.0
+}, {
+"texture_path": "res://assets/backgrounds/stage2_mid.png",
+"y_center": 4.5,
+"height_m": 11.0,
+"z_depth": -7.5,
+"parallax": 0.42,
+"tile_width_m": 28.0
+}]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, -0.25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("Box_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("Mesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+
+
+
+
+
+
+[node name="BeltCamera" type="Camera3D" parent="."]
+script = ExtResource("3_camera")
+target_path = NodePath("../Player")
+
+[node name="CameraShake" type="Node" parent="BeltCamera"]
+script = ExtResource("4_shake")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="LockPoint1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.5, 0)
+script = ExtResource("6_lock")
+waves = Array[ExtResource("8_wave")]([SubResource("Wave_1a"), SubResource("Wave_1b"), SubResource("Wave_1c")])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LockPoint1"]
+shape = SubResource("Box_trigger")
+
+[node name="LockPoint2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 1.5, 0)
+script = ExtResource("6_lock")
+waves = Array[ExtResource("8_wave")]([SubResource("Wave_2a"), SubResource("Wave_2b"), SubResource("Wave_2c")])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LockPoint2"]
+shape = SubResource("Box_trigger")
+
+[node name="BossTrigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 1.5, 0)
+script = ExtResource("7_boss_trigger")
+boss_scene = ExtResource("12_bruiser")
+side = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BossTrigger"]
+shape = SubResource("Box_trigger")
+
+[node name="Hud" parent="." instance=ExtResource("5_hud")]
+health_path = NodePath("../Player/Health")
+
+[node name="InputLog" parent="Hud/Screen" index="3"]
+melee_path = NodePath("../../../Player/PlayerMelee")
+hitbox_path = NodePath("../../../Player/Model/MeleeHitbox")

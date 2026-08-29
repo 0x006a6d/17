@@ -1,0 +1,71 @@
+; 2面ボス SWAT（Swat＋日本刀）。人質は居ないので盾は持たず、ガードで固い。
+; 刀の握り（grip_*）は 4面ボスと同じ値。
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/bruiser.tscn" id="1_bruiser"]
+[ext_resource type="PackedScene" path="res://assets/characters/mixamo_swat.fbx" id="2_model"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_sword_slash.fbx" id="3_slash"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_sword_idle.fbx" id="4_idle"]
+[ext_resource type="Script" path="res://actors/enemy/enemy_attack_profile.gd" id="5_profile"]
+[ext_resource type="Script" path="res://actors/shared/weapon_holder.gd" id="6_holder"]
+[ext_resource type="Script" path="res://actors/player/player_weapon_grip.gd" id="7_grip"]
+[ext_resource type="Script" path="res://actors/shared/weapon_loadout.gd" id="8_loadout"]
+[ext_resource type="PackedScene" path="res://assets/weapons/katana.glb" id="9_katana"]
+
+[sub_resource type="Resource" id="Attack_katana"]
+script = ExtResource("5_profile")
+clip = ExtResource("3_slash")
+measured_peak_time = 0.6
+source_clip_length = 1.5
+min_distance = 0.0
+max_distance = 1.5
+telegraph = 0.12
+active = 0.16
+recovery = 0.22
+damage = 4000.0
+knockback = 6.0
+lunge_speed = 2.5
+
+[sub_resource type="SphereShape3D" id="Sphere_katana"]
+radius = 0.65
+
+[node name="Stage2Boss" instance=ExtResource("1_bruiser")]
+model_scene = ExtResource("2_model")
+model_scale = 1.0
+boss_name = "SWAT"
+attack_range = 1.4
+attack_damage_override = -1.0
+guard_arc_deg = 160.0
+guard_duration = 1.4
+guard_cooldown = 1.2
+guard_chance = 0.75
+counter_after_blocks = 2
+counter_chance = 0.9
+attack_profiles = Array[ExtResource("5_profile")]([SubResource("Attack_katana")])
+
+[node name="Animator" parent="."]
+clip_idle = ExtResource("4_idle")
+clip_attack = ExtResource("3_slash")
+
+[node name="MeleeHitbox" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.75)
+
+[node name="CollisionShape3D" parent="MeleeHitbox"]
+shape = SubResource("Sphere_katana")
+
+[node name="WeaponHolder" type="Node" parent="."]
+script = ExtResource("6_holder")
+
+[node name="WeaponGrip" type="Node" parent="."]
+script = ExtResource("7_grip")
+
+[node name="WeaponLoadout" type="Node" parent="."]
+script = ExtResource("8_loadout")
+weapon_scene = ExtResource("9_katana")
+grip_offset = Vector3(0.0737, 0.1084, 0.0351)
+grip_rotation = Vector3(10.5, -92.5, 171.1)
+grip_scale = Vector3(0.4, 0.4, 0.5)
+grip_profile = 2
+grip_axis_start = Vector3(0.0015, 0.0028, 0.0799)
+grip_axis_end = Vector3(-0.0005, 0.0042, 0.2664)
+grip_model_radius = 0.038

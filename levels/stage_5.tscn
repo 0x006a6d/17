@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://c0y6t52syelpk"]
+
+[ext_resource type="Script" path="res://levels/belt_stage.gd" id="1_stage"]
+[ext_resource type="PackedScene" uid="uid://cplayr0nikeche01" path="res://actors/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://levels/belt_camera.gd" id="3_camera"]
+[ext_resource type="Script" path="res://fx/camera_shake.gd" id="4_shake"]
+[ext_resource type="PackedScene" path="res://ui/hud.tscn" id="5_hud"]
+[ext_resource type="Script" path="res://levels/boss_trigger.gd" id="7_boss_trigger"]
+[ext_resource type="PackedScene" uid="uid://cnikeboss0nike01" path="res://actors/boss/nike.tscn" id="8_nike"]
+[ext_resource type="PackedScene" uid="uid://cbeltbackdrop01" path="res://levels/belt_backdrop.tscn" id="20_backdrop"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/final_guard.tscn" id="10_guard"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/nike_blank.tscn" id="11_blank"]
+[ext_resource type="AudioStreamOggVorbis" uid="uid://j52ekj03ycqt" path="res://assets/bgm/stage5.ogg" id="12_bgm"]
+
+[sub_resource type="Environment" id="Env_stage"]
+background_mode = 1
+background_color = Color(0.05, 0.04, 0.07, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.6, 0.56, 0.62, 1)
+ambient_light_energy = 0.6
+tonemap_mode = 2
+
+[sub_resource type="BoxShape3D" id="Box_floor"]
+size = Vector3(24, 0.5, 8)
+
+[sub_resource type="BoxMesh" id="Mesh_floor"]
+size = Vector3(24, 0.5, 8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.22, 0.20, 0.26, 1)
+
+[sub_resource type="BoxShape3D" id="Box_trigger"]
+size = Vector3(1, 3, 8)
+
+[node name="Stage5" type="Node3D"]
+script = ExtResource("1_stage")
+x_min = 0.0
+x_max = 20.0
+stage = 4
+stage_title = "ポーランドの部屋"
+ground_texture_path = "res://assets/backgrounds/stage5_ground.png"
+reveal_lines = Array[String](["ニケ「くそ、こんな偽物に私の人生が……！」", "AIニケ「……。」", "", "AIニケが床に落ちたポーランド国旗のヘアピンを拾う。自分の「AI」のヘアピンを外し、付け替える。", "", "ミカゼ「ニケちゃんが言った通りにしたよ。」", "ミカゼ「……ほんとうにこれで良かったの？」", "AIニケ「マスターに危険が迫っている。」", "AIニケ「ミカゼ、マスターを安全な場所で守ってくれ。」", "ミカゼ「ニケちゃん、戻ってくるよね？」", "AIニケ「私はマスターからすべてを貰った。」", "AIニケ「マスターのためなら、この身が朽ち果てようと悔いはない。」"])
+reveal_delay = 2.5
+reveal_flash = false
+adds_scenes = Array[PackedScene]([ExtResource("10_guard"), ExtResource("11_blank")])
+boss_trigger_path = NodePath("BossTrigger")
+bgm = ExtResource("12_bgm")
+bgm_volume_db = -2.4
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7, -0.5, 0.5, 0, 0.7, 0.7, -0.7, -0.5, 0.5, 0, 6, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_stage")
+
+[node name="Backdrop" parent="." instance=ExtResource("20_backdrop")]
+layers = [{
+"texture_path": "res://assets/backgrounds/stage5_far.png",
+"y_center": 6.0,
+"height_m": 20.0,
+"z_depth": -14.0,
+"parallax": 0.15,
+"tile_width_m": 40.0
+}]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("Box_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("Mesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="BeltCamera" type="Camera3D" parent="."]
+script = ExtResource("3_camera")
+target_path = NodePath("../Player")
+
+[node name="CameraShake" type="Node" parent="BeltCamera"]
+script = ExtResource("4_shake")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="BossTrigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
+script = ExtResource("7_boss_trigger")
+boss_scene = ExtResource("8_nike")
+side = 1
+use_lock_x = true
+lock_x = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BossTrigger"]
+shape = SubResource("Box_trigger")
+
+[node name="Hud" parent="." instance=ExtResource("5_hud")]
+health_path = NodePath("../Player/Health")
+
+[node name="InputLog" parent="Hud/Screen" index="3"]
+melee_path = NodePath("../../../Player/PlayerMelee")
+hitbox_path = NodePath("../../../Player/Model/MeleeHitbox")

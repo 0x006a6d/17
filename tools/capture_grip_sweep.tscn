@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/capture_grip_sweep.gd" id="1_sweep"]
+
+[node name="CaptureGripSweep" type="Node3D"]
+script = ExtResource("1_sweep")

@@ -1,0 +1,8 @@
+; ゾンビの見た目違い（Ch28）。挙動は zombie.tscn のまま。
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/zombie.tscn" id="1_zombie"]
+[ext_resource type="PackedScene" path="res://assets/characters/mixamo_ch28.fbx" id="9_model"]
+
+[node name="ZombieB" instance=ExtResource("1_zombie")]
+model_scene = ExtResource("9_model")

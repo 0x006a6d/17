@@ -1,0 +1,8 @@
+; 通常型の見た目違い（Ch28）。挙動は enemy.tscn のまま。
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/enemy.tscn" id="1_enemy"]
+[ext_resource type="PackedScene" path="res://assets/characters/mixamo_ch28.fbx" id="9_model"]
+
+[node name="EnemyB" instance=ExtResource("1_enemy")]
+model_scene = ExtResource("9_model")

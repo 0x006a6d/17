@@ -1,0 +1,228 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
+[ext_resource type="Script" path="res://ui/input_log.gd" id="2_inputlog"]
+
+[node name="Hud" type="CanvasLayer"]
+layer = 50
+script = ExtResource("1_hud")
+
+[node name="Screen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StatusPanel" type="Panel" parent="Screen"]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 334.0
+offset_bottom = 188.0
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="Screen/StatusPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+mouse_filter = 2
+
+[node name="Rows" type="VBoxContainer" parent="Screen/StatusPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+mouse_filter = 2
+
+[node name="HpLabel" type="Label" parent="Screen/StatusPanel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "HP   300 / 300"
+
+[node name="HpBar" type="ProgressBar" parent="Screen/StatusPanel/Margin/Rows"]
+custom_minimum_size = Vector2(274, 18)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="LivesLabel" type="Label" parent="Screen/StatusPanel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "残機  ×3"
+
+[node name="WeaponLabel" type="Label" parent="Screen/StatusPanel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "武器  銃"
+
+[node name="AmmoLabel" type="Label" parent="Screen/StatusPanel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "残弾  30 / 30"
+
+[node name="BossPanel" type="Panel" parent="Screen"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -260.0
+offset_top = 24.0
+offset_right = 260.0
+offset_bottom = 96.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="Screen/BossPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+mouse_filter = 2
+
+[node name="Rows" type="VBoxContainer" parent="Screen/BossPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="Screen/BossPanel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "BOSS"
+horizontal_alignment = 1
+
+[node name="HpBar" type="ProgressBar" parent="Screen/BossPanel/Margin/Rows"]
+custom_minimum_size = Vector2(488, 16)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="ScorePanel" type="Panel" parent="Screen"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -274.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 92.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="Screen/ScorePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+mouse_filter = 2
+
+[node name="Rows" type="VBoxContainer" parent="Screen/ScorePanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+mouse_filter = 2
+
+[node name="CaptionLabel" type="Label" parent="Screen/ScorePanel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "SCORE"
+horizontal_alignment = 2
+
+[node name="ScoreLabel" type="Label" parent="Screen/ScorePanel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "0"
+horizontal_alignment = 2
+
+[node name="StageTitleLabel" type="Label" parent="Screen"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -420.0
+offset_top = 28.0
+offset_right = 420.0
+offset_bottom = 92.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 36
+text = "ターミナル・スラム"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="GoLabel" type="Label" parent="Screen"]
+visible = false
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -30.0
+offset_right = -40.0
+offset_bottom = 30.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 44
+text = "GO →"
+horizontal_alignment = 2
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="InputLog" type="Control" parent="Screen"]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -140.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("2_inputlog")
+
+[node name="Rows" type="VBoxContainer" parent="Screen/InputLog"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 4
+alignment = 2
+mouse_filter = 2
+
+[node name="HistoryLabel" type="Label" parent="Screen/InputLog/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+
+[node name="StageLabel" type="Label" parent="Screen/InputLog/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+
+[node name="NextLabel" type="Label" parent="Screen/InputLog/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1

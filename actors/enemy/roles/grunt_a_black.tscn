@@ -1,0 +1,15 @@
+; 通常A（Ch01）の色違い。上半身（ポロシャツ）を黒に落とす。元が明るいので
+; テクスチャを残したまま掛ける（皺が残る）。
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/enemy.tscn" id="1_enemy"]
+[ext_resource type="Script" path="res://actors/shared/palette_swap.gd" id="2_palette"]
+
+[node name="EnemyABlack" instance=ExtResource("1_enemy")]
+
+[node name="PaletteSwap" type="Node" parent="."]
+script = ExtResource("2_palette")
+target_mesh_names = Array[StringName]([&"Ch01_Shirt"])
+color = Color(0.11, 0.11, 0.13, 1)
+mode = 0
+model_path = NodePath("../Model")

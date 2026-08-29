@@ -1,0 +1,149 @@
+[gd_scene load_steps=29 format=3 uid="uid://cenemy0nikeche01"]
+
+[ext_resource type="Script" path="res://actors/enemy/enemy.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://actors/shared/health.gd" id="2_health"]
+[ext_resource type="Script" path="res://actors/shared/hurtbox.gd" id="3_hurtbox"]
+[ext_resource type="Script" path="res://actors/shared/hitbox.gd" id="4_hitbox"]
+[ext_resource type="Script" path="res://actors/shared/state_machine.gd" id="5_sm"]
+[ext_resource type="Script" path="res://actors/enemy/npc_animator.gd" id="6_animator"]
+[ext_resource type="PackedScene" path="res://assets/characters/mixamo_ch01.fbx" id="7_model"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_idle.fbx" id="8_idle"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_walk.fbx" id="9_walk"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_run.fbx" id="10_run"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_hit_head.fbx" id="11_hit"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_death_headshot.fbx" id="12_down"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_cross_punch.fbx" id="13_attack"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_hit_react_large_front.fbx" id="14_knockback"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_hit_react_small.fbx" id="15_hit_small"]
+[ext_resource type="Script" path="res://actors/enemy/enemy_attack_profile.gd" id="16_profile"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_jab_left.fbx" id="17_jab"]
+[ext_resource type="PackedScene" path="res://assets/motions/mixamo_hook_1.fbx" id="18_hook"]
+[ext_resource type="Script" path="res://fx/damage_feedback_3d.gd" id="19_feedback"]
+[ext_resource type="Script" path="res://actors/shared/model_blink.gd" id="20_blink"]
+[ext_resource type="Script" path="res://actors/shared/voice_reactions.gd" id="21_voice"]
+[ext_resource type="AudioStream" path="res://assets/voice/enemy_hurt_a.wav" id="22_v_hurt_a"]
+[ext_resource type="AudioStream" path="res://assets/voice/enemy_hurt_b.wav" id="23_v_hurt_b"]
+[ext_resource type="AudioStream" path="res://assets/voice/enemy_hurt_c.wav" id="24_v_hurt_c"]
+[ext_resource type="AudioStream" path="res://assets/voice/enemy_down.wav" id="25_v_down"]
+
+[sub_resource type="Resource" id="Attack_cross"]
+script = ExtResource("16_profile")
+clip = ExtResource("13_attack")
+measured_peak_time = 1.133
+source_clip_length = 2.0
+min_distance = 0.95
+max_distance = 1.35
+telegraph = 0.45
+active = 0.18
+recovery = 0.35
+damage = 1200.0
+knockback = 3.0
+lunge_speed = 1.2
+
+[sub_resource type="Resource" id="Attack_jab"]
+script = ExtResource("16_profile")
+animation_variant = 1
+clip = ExtResource("17_jab")
+measured_peak_time = 0.4
+source_clip_length = 1.333
+min_distance = 0.9
+max_distance = 1.35
+telegraph = 0.17
+active = 0.12
+recovery = 0.31
+damage = 900.0
+knockback = 2.0
+lunge_speed = 1.4
+
+[sub_resource type="Resource" id="Attack_hook"]
+script = ExtResource("16_profile")
+animation_variant = 2
+clip = ExtResource("18_hook")
+measured_peak_time = 0.433
+source_clip_length = 1.3
+max_distance = 1.0
+telegraph = 0.22
+active = 0.12
+recovery = 0.44
+damage = 1500.0
+knockback = 4.0
+lunge_speed = 0.8
+
+[sub_resource type="CapsuleShape3D" id="Capsule_body"]
+radius = 0.35
+height = 1.6
+
+[sub_resource type="CapsuleShape3D" id="Capsule_hurt"]
+radius = 0.45
+height = 1.7
+
+[sub_resource type="SphereShape3D" id="Sphere_hitbox"]
+radius = 0.3
+
+[node name="Enemy" type="CharacterBody3D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_enemy")
+model_scene = ExtResource("7_model")
+attack_profiles = Array[ExtResource("16_profile")]([SubResource("Attack_cross"), SubResource("Attack_jab"), SubResource("Attack_hook")])
+
+[node name="Model" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
+
+[node name="Animator" type="Node" parent="."]
+script = ExtResource("6_animator")
+clip_idle = ExtResource("8_idle")
+clip_walk = ExtResource("9_walk")
+clip_run = ExtResource("10_run")
+clip_hit = ExtResource("11_hit")
+clip_knockback = ExtResource("14_knockback")
+clip_hit_small = ExtResource("15_hit_small")
+clip_down = ExtResource("12_down")
+clip_attack = ExtResource("13_attack")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("Capsule_body")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_health")
+max_hp = 30000.0
+stagger_threshold = 1
+
+[node name="DamageFeedback3D" type="Node3D" parent="."]
+script = ExtResource("19_feedback")
+
+[node name="DespawnBlink" type="Node" parent="."]
+script = ExtResource("20_blink")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("3_hurtbox")
+owner_body_path = NodePath("..")
+health_path = NodePath("../Health")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("Capsule_hurt")
+
+[node name="MeleeHitbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.55)
+collision_layer = 32
+collision_mask = 64
+monitoring = false
+script = ExtResource("4_hitbox")
+source_body_path = NodePath("..")
+ignore_groups = Array[StringName]([&"enemy", &"hostage"])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeleeHitbox"]
+shape = SubResource("Sphere_hitbox")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("5_sm")
+
+[node name="Voice" type="Node" parent="."]
+script = ExtResource("21_voice")
+hurt_clips = Array[AudioStream]([ExtResource("22_v_hurt_a"), ExtResource("23_v_hurt_b"), ExtResource("24_v_hurt_c")])
+down_clips = Array[AudioStream]([ExtResource("25_v_down")])
+hurt_chance = 0.4

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/capture_stage4_boss_gun.gd" id="1_s4gun"]
+
+[node name="CaptureStage4BossGun" type="Node"]
+script = ExtResource("1_s4gun")

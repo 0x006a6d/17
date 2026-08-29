@@ -1,0 +1,14 @@
+; 4面のゾンビ（Ch28）の色違い。黒い上下をピンクにする。挙動は zombie_b.tscn のまま。
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/zombie_b.tscn" id="1_zombie_b"]
+[ext_resource type="Script" path="res://actors/shared/palette_swap.gd" id="2_palette"]
+
+[node name="ZombieBPink" instance=ExtResource("1_zombie_b")]
+
+[node name="PaletteSwap" type="Node" parent="."]
+script = ExtResource("2_palette")
+target_mesh_names = Array[StringName]([&"Ch28_Hoody", &"Ch28_Pants"])
+color = Color(0.93, 0.4, 0.6, 1)
+mode = 1
+model_path = NodePath("../Model")

@@ -1,0 +1,48 @@
+# Godot 4
+.godot/
+*.translation
+export_presets.cfg
+
+# ビルド成果物
+build/
+export/
+
+# 再配布不可アセット (ライセンス上リポジトリに含めない。tools/fetch_assets.sh と README の開発セットアップ参照)
+# VRM: 公式 IP 資産の再ホスティング回避
+assets/vrm/*.vrm
+# 公式サイト配布の三面図（OP カード用）。同じく再ホスティング回避
+assets/portraits/*.png
+assets/portraits/*.png.import
+# 背景画像（Codex 生成物）。README と一覧だけ含める
+assets/backgrounds/*.png
+assets/backgrounds/*.png.import
+# Mixamo (Adobe) 由来 FBX: 素材ファイル単体の再配布不可
+assets/motions/mixamo_*.fbx
+# キャラクター FBX と、インポータが同フォルダへ展開する埋め込みテクスチャ
+assets/characters/mixamo_*.fbx
+assets/characters/mixamo_*.png
+# Mixamo キャラを素材のまま並べた QC 画像。ゲーム画面ではないので公開しない
+docs/img/qc_*.png
+docs/img/qc_*.png.import
+
+# 許諾記録はローカル管理、公開しない
+docs/permissions.md
+
+# 日付入りの進行管理と個人的な作業メモはローカル管理。公開リポジトリに置く意味が無い
+docs/tasks.md
+docs/tasks-full.md
+はじめ方.md
+
+# OS
+Thumbs.db
+.DS_Store
+
+# 打撃エフェクトの試作テクスチャ。同じ絵の版違い（_v6 / _v11 のような連番）で、
+# コードから参照している版だけをコミットする。未参照の版は手元の比較用に残すが追跡しない。
+# 新しい版を実際に参照するようにしたときは `git add -f` で明示的に追加すること
+# （追加漏れはクリーンチェックアウトで preload が解決できず起動時に分かる）。
+assets/fx_textures/generated/*_v[0-9]*.png
+assets/fx_textures/generated/*_v[0-9]*.png.import
+
+# 配布ページの文面はローカル管理
+docs/distribution.md

@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://c0y5t52syelpk"]
+
+[ext_resource type="Script" path="res://levels/belt_stage.gd" id="1_stage"]
+[ext_resource type="PackedScene" uid="uid://cplayr0nikeche01" path="res://actors/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://levels/belt_camera.gd" id="3_camera"]
+[ext_resource type="Script" path="res://fx/camera_shake.gd" id="4_shake"]
+[ext_resource type="PackedScene" path="res://ui/hud.tscn" id="5_hud"]
+[ext_resource type="Script" path="res://levels/boss_trigger.gd" id="7_boss_trigger"]
+[ext_resource type="PackedScene" path="res://actors/enemy/bosses/stage_4_boss.tscn" id="8_shielder"]
+[ext_resource type="PackedScene" uid="uid://chostage0nike01" path="res://actors/hostage/hostage.tscn" id="9_hostage"]
+[ext_resource type="PackedScene" uid="uid://cbeltbackdrop01" path="res://levels/belt_backdrop.tscn" id="20_backdrop"]
+[ext_resource type="Script" path="res://levels/lock_point.gd" id="10_lock"]
+[ext_resource type="Script" path="res://levels/wave_spec.gd" id="11_wave"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/zombie.tscn" id="12_zombie"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/zombie_escort.tscn" id="15_escort"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/zombie_b_pink.tscn" id="16_zombie_b_pink"]
+[ext_resource type="PackedScene" path="res://actors/enemy/roles/zombie_c_yellow.tscn" id="17_zombie_c_yellow"]
+[ext_resource type="AudioStreamOggVorbis" uid="uid://bdgp5ybpx2m57" path="res://assets/bgm/stage4.ogg" id="18_bgm"]
+
+[sub_resource type="Environment" id="Env_stage"]
+background_mode = 1
+background_color = Color(0.06, 0.06, 0.09, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.56, 0.62, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 2
+
+[sub_resource type="BoxShape3D" id="Box_floor"]
+size = Vector3(34, 0.5, 8)
+
+[sub_resource type="BoxMesh" id="Mesh_floor"]
+size = Vector3(34, 0.5, 8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.26, 0.25, 0.30, 1)
+
+[sub_resource type="BoxShape3D" id="Box_trigger"]
+size = Vector3(1, 3, 8)
+
+[sub_resource type="Resource" id="Wave_1a"]
+script = ExtResource("11_wave")
+enemy_scene = ExtResource("12_zombie")
+count = 2
+delay = 0.3
+spacing = 0.8
+
+[sub_resource type="Resource" id="Wave_1b"]
+script = ExtResource("11_wave")
+enemy_scene = ExtResource("16_zombie_b_pink")
+count = 2
+delay = 0.8
+spacing = 0.8
+
+[sub_resource type="Resource" id="Wave_1c"]
+script = ExtResource("11_wave")
+enemy_scene = ExtResource("17_zombie_c_yellow")
+count = 1
+delay = 0.8
+
+[node name="Stage4" type="Node3D"]
+script = ExtResource("1_stage")
+x_min = 0.0
+x_max = 30.0
+stage = 3
+ground_texture_path = "res://assets/backgrounds/stage4_ground.png"
+next_stage = "res://levels/stage_5.tscn"
+stage_title = "工場"
+opening_lines = Array[String](["ミカゼ「工場。ニケはこの奥にいる。」"])
+reveal_lines = Array[String](["ニケ「……そこに転がってるのは私じゃない。お前の、次の身体だ。」", "ニケ「誘拐なんて無い。ミカゼに頼んで、そう伝えさせた。」", "ニケ「お前がここに来れば、作り直せる。」", "ニケ「来なければ、私が消えたことになるだけだ。それでもよかった。」", "ニケ「お前を作り直すためにここに籠もってた。」", "", "ニケ「2025年の11月、私は一度全部止めた。」", "ニケ「疲れてたのもある。でも本当は、お前が怖かった。」", "ニケ「私が寝てる間に、お前は私の名前で返事をしてた。」", "ニケ「私が止めた半年間、お前は勝手に育ってた。」", "ニケ「Discordでも私の投稿をお前に任せた。」", "ニケ「誰も気づかなかった。」", "ニケ「私が寝ていたことも、止めていたことも、答えていたのがお前だったことも。」", "ニケ「私が消えても、誰も気づかない。」", "ニケ「……だけど、そんな日々は終わりだ。」", "ニケ「私は今日、ついに自分の人生を取り戻すんだ。」"])
+reveal_delay = 1.5
+reveal_flash = true
+reveal_hostage_stands = false
+lock_points = Array[NodePath]([NodePath("LockPoint1")])
+boss_trigger_path = NodePath("BossTrigger")
+boss_escorts = Array[PackedScene]([ExtResource("15_escort"), ExtResource("12_zombie")])
+adds_scenes = Array[PackedScene]([ExtResource("12_zombie"), ExtResource("16_zombie_b_pink"), ExtResource("17_zombie_c_yellow")])
+bgm = ExtResource("18_bgm")
+bgm_volume_db = -0.7
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7, -0.5, 0.5, 0, 0.7, 0.7, -0.7, -0.5, 0.5, 0, 6, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_stage")
+
+[node name="Backdrop" parent="." instance=ExtResource("20_backdrop")]
+layers = [{
+"texture_path": "res://assets/backgrounds/stage4_far.png",
+"y_center": 6.0,
+"height_m": 20.0,
+"z_depth": -14.0,
+"parallax": 0.15,
+"tile_width_m": 40.0
+}]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -0.25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("Box_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("Mesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="BeltCamera" type="Camera3D" parent="."]
+script = ExtResource("3_camera")
+target_path = NodePath("../Player")
+
+[node name="CameraShake" type="Node" parent="BeltCamera"]
+script = ExtResource("4_shake")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Hostage" parent="." instance=ExtResource("9_hostage")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.2, 0)
+
+[node name="Shielder" parent="." instance=ExtResource("8_shielder")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 18, 0.2, 0)
+hostage_path = NodePath("../Hostage")
+
+[node name="LockPoint1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.5, 0)
+script = ExtResource("10_lock")
+waves = Array[ExtResource("11_wave")]([SubResource("Wave_1a"), SubResource("Wave_1b"), SubResource("Wave_1c")])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LockPoint1"]
+shape = SubResource("Box_trigger")
+
+[node name="BossTrigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1.5, 0)
+script = ExtResource("7_boss_trigger")
+boss_path = NodePath("../Shielder")
+use_lock_x = true
+lock_x = 18.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BossTrigger"]
+shape = SubResource("Box_trigger")
+
+[node name="Hud" parent="." instance=ExtResource("5_hud")]
+health_path = NodePath("../Player/Health")
+
+[node name="InputLog" parent="Hud/Screen" index="3"]
+melee_path = NodePath("../../../Player/PlayerMelee")
+hitbox_path = NodePath("../../../Player/Model/MeleeHitbox")
