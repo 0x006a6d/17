@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIニケ 技一覧</title>
+<style>
+:root { --bg:#14161b; --panel:#1c1f27; --line:#2b2f3a; --fg:#e8e9ee; --dim:#9aa0b0; --accent:#d3a24a; --near:#d06a6a; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:"Yu Gothic UI","Meiryo",system-ui,sans-serif; line-height:1.7; }
+.wrap { max-width:1360px; margin:0 auto; padding:0 16px; }
+header { padding:22px 0 16px; border-bottom:1px solid var(--line); }
+nav { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+nav a { color:var(--dim); text-decoration:none; border:1px solid var(--line); border-radius:5px; padding:4px 12px; font-size:14px; }
+nav a.on { color:var(--fg); border-color:var(--char); background:#232735; }
+h1 { margin:0 0 6px; font-size:22px; font-weight:600; }
+h1 span { color:var(--char); }
+.lead { margin:0; color:var(--dim); font-size:14px; }
+section.info { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr)); padding:18px 0 4px; }
+.box { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; font-size:13.5px; }
+.box h3 { margin:0 0 8px; font-size:14px; color:var(--accent); font-weight:600; }
+.box table { border-collapse:collapse; width:100%; }
+.box td { padding:4px 6px; border-top:1px solid var(--line); vertical-align:top; }
+.box ul { margin:0; padding-left:18px; }
+.tools { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:16px 0 0; }
+.tools button { background:#232735; color:var(--dim); border:1px solid var(--line); border-radius:5px; padding:5px 11px; font:inherit; font-size:13px; cursor:pointer; }
+.tools button.on { color:var(--fg); border-color:var(--char); }
+input[type=search] { background:#232735; color:var(--fg); border:1px solid var(--line); border-radius:5px; padding:6px 10px; font:inherit; font-size:14px; }
+.count { color:var(--dim); font-size:13px; }
+main { padding:18px 0 60px; }
+.grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(min(360px,100%),1fr)); }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; display:flex; flex-direction:column; }
+.card.wide { grid-column:span 2; }
+.shot { background:#0f1116; aspect-ratio:3/2; }
+.card.wide .shot { aspect-ratio:16/9; }
+.shot img { display:block; width:100%; height:100%; object-fit:contain; }
+.body { padding:12px 14px 14px; }
+h2 { margin:0 0 6px; font-size:16px; font-weight:600; color:var(--accent); display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; }
+.tag { font-size:11.5px; color:var(--dim); border:1px solid var(--line); border-radius:3px; padding:0 6px; font-weight:400; }
+.tag.near { color:var(--near); border-color:#5a3434; }
+.input { display:flex; flex-wrap:wrap; gap:4px; align-items:center; margin:0 0 8px; }
+.btn { display:inline-flex; align-items:baseline; gap:5px; background:#262a36; border:1px solid #3a3f4e; border-radius:4px; padding:1px 7px; font-size:13px; }
+.btn b { font-weight:600; } .btn i { font-style:normal; color:var(--dim); font-size:11.5px; }
+.op { color:var(--dim); font-size:13px; padding:0 2px; }
+.desc { margin:0 0 10px; font-size:13.5px; }
+dl.meta { display:grid; grid-template-columns:auto 1fr; gap:3px 12px; margin:0; font-size:12.5px; }
+dt { color:var(--dim); white-space:nowrap; } dd { margin:0; }
+footer { border-top:1px solid var(--line); color:var(--dim); font-size:12.5px; padding:18px 0 40px; }
+footer a { color:var(--fg); }
+@media (max-width:760px) { .card.wide { grid-column:auto; } .grid { grid-template-columns:1fr; } }
+
+:root { --char:#8a7ad0; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav><a href="nike.html" class="on">AIニケ</a><a href="mikaze.html" class="">ミカゼ</a><a href="niku.html" class="">ニク</a></nav>
+    <h1><span>AIニケ</span> 技一覧</h1>
+    <p class="lead">素手・日本刀・銃を持ち替えて戦う。移動の速さが他の 2 人の 1.1 倍、攻撃の速さが 1.2 倍。 武器の持ち替え順は 素手 → 日本刀 → 銃 → 素手。動きはすべて 1 面で実際のボタン入力を流して撮ったもの（20 コマ/秒）。</p>
+    <section class="info">
+      <div class="box"><h3>ボタン</h3><table><tr><td><span class="btn"><b>□</b><i>J</i></span></td><td>素手のパンチ（武器を持っているときは武器を使う）／敵の振りかぶり中はカウンター</td></tr><tr><td><span class="btn"><b>×</b><i>K</i></span></td><td>キック／倒れた敵が近ければ追い打ち</td></tr><tr><td><span class="btn"><b>R2</b><i>U</i></span></td><td>武器を使う（日本刀で斬る・銃は押している間連射・弾切れなら殴る）</td></tr><tr><td><span class="btn"><b>L2</b><i>R</i></span></td><td>銃のリロード</td></tr><tr><td><span class="btn"><b>L1</b><i>Tab</i></span></td><td>武器の持ち替え</td></tr><tr><td><span class="btn"><b>R1</b><i>Space</i></span></td><td>回避（バックフリップ）</td></tr><tr><td><span class="btn"><b>△</b><i>O</i></span></td><td>回転飛び蹴り／1.5 m 以内に敵がいればフランケンシュタイナー</td></tr><tr><td><span class="btn"><b>○</b><i>E</i></span></td><td>長押しで踊って回復</td></tr></table></div>
+      <div class="box"><h3>ダメージと得点の決まり</h3><ul><li>ダメージは表の値から 1〜12% 上振れする（四捨五入）。投げ・タックル・カウンター・追い打ちも同じ。</li><li>攻撃は互いの奥行きの差が 0.6 m 以内でないと当たらない。</li><li>敵を倒すと 1 体 200 点。死亡（残機を 1 つ失う）で −500 点。得点は 0 未満にはならない。</li><li>△ の技は出し始めから終わるまで無敵。</li><li>敵の輪郭が赤くなるのが攻撃の予告。赤い間（判定が出る前）に近くで □ を押すと、AIニケとミカゼはカウンターを出す。</li></ul></div>
+    </section>
+    <div class="tools"><button data-cat="" class="on">すべて</button><button data-cat="移動">移動</button><button data-cat="素手">素手</button><button data-cat="武器">武器</button><button data-cat="必殺">必殺</button><button data-cat="カウンター">カウンター</button><button data-cat="回復">回復</button><button data-cat="回避">回避</button><button data-cat="追い打ち">追い打ち</button><input type="search" id="q" placeholder="技名・説明で絞り込み" size="24"><span class="count" id="count"></span></div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="grid">
+  <article class="card" data-cat="移動" data-text="移動 移動 左右で進み、上下で奥行きを移る。奥行き方向は横の 0.7 倍の速さ。向きは左右の 2 方向だけ。 速さ 4.95 m/秒（aiニケだけ 1.1 倍）">
+    <div class="shot"><img src="anim/nike/move.webp" alt="移動" loading="lazy"></div>
+    <div class="body">
+      <h2>移動<span class="tag">移動</span></h2>
+      <div class="input"><span class="btn"><b>左スティック</b><i>WASD</i></span></div>
+      <p class="desc">左右で進み、上下で奥行きを移る。奥行き方向は横の 0.7 倍の速さ。向きは左右の 2 方向だけ。</p>
+      <dl class="meta"><dt>速さ</dt><dd>4.95 m/秒（AIニケだけ 1.1 倍）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="素手" data-text="素手コンボ ppp 素手 左ジャブ（1,000） → 右ストレート（2,000） → 左フック（2,600）。 合計 5,600 得点 600（100×段） 条件 素手のとき（□）。× は武器を持っていても出る">
+    <div class="shot"><img src="anim/nike/ppp.webp" alt="素手コンボ PPP" loading="lazy"></div>
+    <div class="body">
+      <h2>素手コンボ PPP<span class="tag">素手</span></h2>
+      <div class="input"><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>□</b><i>J</i></span></div>
+      <p class="desc">左ジャブ（1,000） → 右ストレート（2,000） → 左フック（2,600）。</p>
+      <dl class="meta"><dt>合計</dt><dd>5,600</dd><dt>得点</dt><dd>600（100×段）</dd><dt>条件</dt><dd>素手のとき（□）。× は武器を持っていても出る</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="素手" data-text="素手コンボ kkk 素手 右膝（1,400） → 右ミドル（2,000） → 右ハイ（3,000）。 合計 6,400 得点 600（100×段） 条件 素手のとき（□）。× は武器を持っていても出る">
+    <div class="shot"><img src="anim/nike/kkk.webp" alt="素手コンボ KKK" loading="lazy"></div>
+    <div class="body">
+      <h2>素手コンボ KKK<span class="tag">素手</span></h2>
+      <div class="input"><span class="btn"><b>×</b><i>K</i></span><span class="btn"><b>×</b><i>K</i></span><span class="btn"><b>×</b><i>K</i></span></div>
+      <p class="desc">右膝（1,400） → 右ミドル（2,000） → 右ハイ（3,000）。</p>
+      <dl class="meta"><dt>合計</dt><dd>6,400</dd><dt>得点</dt><dd>600（100×段）</dd><dt>条件</dt><dd>素手のとき（□）。× は武器を持っていても出る</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="素手" data-text="素手コンボ ppkpk 素手 左ジャブ（1,000） → 右ストレート（2,000） → 右膝（1,400） → 左フック（2,600） → 右ハイ（3,000）。壁際（画面の端）に追い込んだ敵には 5 段すべて当たる（撮影は敵の後ろ 0.5 m が画面の端）。壁際以外では 4 段目の左フックで敵が離れ、5 段目は届かない。 合計 10,000 得点 1,500（100×段） 条件 素手のとき（□）。× は武器を持っていても出る">
+    <div class="shot"><img src="anim/nike/ppkpk.webp" alt="素手コンボ PPKPK" loading="lazy"></div>
+    <div class="body">
+      <h2>素手コンボ PPKPK<span class="tag">素手</span></h2>
+      <div class="input"><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>×</b><i>K</i></span><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>×</b><i>K</i></span></div>
+      <p class="desc">左ジャブ（1,000） → 右ストレート（2,000） → 右膝（1,400） → 左フック（2,600） → 右ハイ（3,000）。壁際（画面の端）に追い込んだ敵には 5 段すべて当たる（撮影は敵の後ろ 0.5 m が画面の端）。壁際以外では 4 段目の左フックで敵が離れ、5 段目は届かない。</p>
+      <dl class="meta"><dt>合計</dt><dd>10,000</dd><dt>得点</dt><dd>1,500（100×段）</dd><dt>条件</dt><dd>素手のとき（□）。× は武器を持っていても出る</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="素手" data-text="素手コンボ pkpp 素手 左ジャブ（1,000） → 右膝（1,400） → 左ジャブ（1,000） → 右ストレート（2,000）。 合計 5,400 得点 1,000（100×段） 条件 素手のとき（□）。× は武器を持っていても出る">
+    <div class="shot"><img src="anim/nike/pkpp.webp" alt="素手コンボ PKPP" loading="lazy"></div>
+    <div class="body">
+      <h2>素手コンボ PKPP<span class="tag">素手</span></h2>
+      <div class="input"><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>×</b><i>K</i></span><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>□</b><i>J</i></span></div>
+      <p class="desc">左ジャブ（1,000） → 右膝（1,400） → 左ジャブ（1,000） → 右ストレート（2,000）。</p>
+      <dl class="meta"><dt>合計</dt><dd>5,400</dd><dt>得点</dt><dd>1,000（100×段）</dd><dt>条件</dt><dd>素手のとき（□）。× は武器を持っていても出る</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="素手" data-text="素手コンボ pkkp 素手 左ジャブ（1,000） → 右膝（1,400） → 右ミドル（2,000） → 左フック（2,600）。 合計 7,000 得点 1,000（100×段） 条件 素手のとき（□）。× は武器を持っていても出る">
+    <div class="shot"><img src="anim/nike/pkkp.webp" alt="素手コンボ PKKP" loading="lazy"></div>
+    <div class="body">
+      <h2>素手コンボ PKKP<span class="tag">素手</span></h2>
+      <div class="input"><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>×</b><i>K</i></span><span class="btn"><b>×</b><i>K</i></span><span class="btn"><b>□</b><i>J</i></span></div>
+      <p class="desc">左ジャブ（1,000） → 右膝（1,400） → 右ミドル（2,000） → 左フック（2,600）。</p>
+      <dl class="meta"><dt>合計</dt><dd>7,000</dd><dt>得点</dt><dd>1,000（100×段）</dd><dt>条件</dt><dd>素手のとき（□）。× は武器を持っていても出る</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="素手" data-text="素手コンボ kpppkpk 素手 右膝（1,400） → 左フック（2,600） → 右ストレート（2,000） → 左ジャブ（1,000） → 右膝（1,400） → 左フック（2,600） → 右ハイ（3,000）。壁際（画面の端）に追い込んだ敵には 7 段すべて当たる（撮影は敵の後ろ 0.5 m が画面の端）。壁際以外では 2 段目の左フックで敵が約 1 m 離れ、3 段目以降は届かない。 合計 14,000 得点 2,800（100×段） 条件 素手のとき（□）。× は武器を持っていても出る">
+    <div class="shot"><img src="anim/nike/kpppkpk.webp" alt="素手コンボ KPPPKPK" loading="lazy"></div>
+    <div class="body">
+      <h2>素手コンボ KPPPKPK<span class="tag">素手</span></h2>
+      <div class="input"><span class="btn"><b>×</b><i>K</i></span><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>×</b><i>K</i></span><span class="btn"><b>□</b><i>J</i></span><span class="btn"><b>×</b><i>K</i></span></div>
+      <p class="desc">右膝（1,400） → 左フック（2,600） → 右ストレート（2,000） → 左ジャブ（1,000） → 右膝（1,400） → 左フック（2,600） → 右ハイ（3,000）。壁際（画面の端）に追い込んだ敵には 7 段すべて当たる（撮影は敵の後ろ 0.5 m が画面の端）。壁際以外では 2 段目の左フックで敵が約 1 m 離れ、3 段目以降は届かない。</p>
+      <dl class="meta"><dt>合計</dt><dd>14,000</dd><dt>得点</dt><dd>2,800（100×段）</dd><dt>条件</dt><dd>素手のとき（□）。× は武器を持っていても出る</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="武器" data-text="日本刀 3段 武器 l1 で 素手 → 日本刀 → 銃 → 素手 と持ち替える。日本刀を持っていれば r2 か □ で斬る。押し続けると 3 段まで繋がる。3 段目の回転斬りは体の周り 360 度に当たる。壁際（画面の端）に追い込んだ敵には 3 段すべて当たる（撮影は敵の後ろ 0.5 m が画面の端）。壁際以外では 2 段目で敵が離れ、3 段目は届かない。 ダメージ 4,000 / 5,000 / 7,000 リーチ 1.40 / 1.65 / 1.90 m（3 段目は体の周り 360 度） ノックバック 6.0 / 7.5 / 10.0 即死 1 発ごとに 15%（ボス・4面は無し） 得点 60×段（1段 60・2段 120・3段 180）">
+    <div class="shot"><img src="anim/nike/katana.webp" alt="日本刀 3段" loading="lazy"></div>
+    <div class="body">
+      <h2>日本刀 3段<span class="tag">武器</span></h2>
+      <div class="input"><span class="btn"><b>L1</b><i>Tab</i></span><span class="op">→</span><span class="btn"><b>R2</b><i>U</i></span><span class="btn"><b>R2</b><i>U</i></span><span class="btn"><b>R2</b><i>U</i></span></div>
+      <p class="desc">L1 で 素手 → 日本刀 → 銃 → 素手 と持ち替える。日本刀を持っていれば R2 か □ で斬る。押し続けると 3 段まで繋がる。3 段目の回転斬りは体の周り 360 度に当たる。壁際（画面の端）に追い込んだ敵には 3 段すべて当たる（撮影は敵の後ろ 0.5 m が画面の端）。壁際以外では 2 段目で敵が離れ、3 段目は届かない。</p>
+      <dl class="meta"><dt>ダメージ</dt><dd>4,000 / 5,000 / 7,000</dd><dt>リーチ</dt><dd>1.40 / 1.65 / 1.90 m（3 段目は体の周り 360 度）</dd><dt>ノックバック</dt><dd>6.0 / 7.5 / 10.0</dd><dt>即死</dt><dd>1 発ごとに 15%（ボス・4面は無し）</dd><dt>得点</dt><dd>60×段（1段 60・2段 120・3段 180）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="武器" data-text="銃（拳銃） 武器 正面へ水平に撃つ。狙う操作は無い。r2 を押している間、連射する（□ は 1 回に 1 発）。l2 でリロード（撃ち切らなくてもできる）。 ダメージ 4,500 射程 22 m 間隔 0.23 秒 装弾 30 発・リロード 1.3 秒 即死 10%（ヘッドショット扱い） 得点 1 発 30">
+    <div class="shot"><img src="anim/nike/gun.webp" alt="銃（拳銃）" loading="lazy"></div>
+    <div class="body">
+      <h2>銃（拳銃）<span class="tag">武器</span></h2>
+      <div class="input"><span class="btn"><b>L1</b><i>Tab</i></span><span class="btn"><b>L1</b><i>Tab</i></span><span class="op">→</span><span class="btn"><b>R2</b><i>U</i></span><span class="op">長押し</span></div>
+      <p class="desc">正面へ水平に撃つ。狙う操作は無い。R2 を押している間、連射する（□ は 1 回に 1 発）。L2 でリロード（撃ち切らなくてもできる）。</p>
+      <dl class="meta"><dt>ダメージ</dt><dd>4,500</dd><dt>射程</dt><dd>22 m</dd><dt>間隔</dt><dd>0.23 秒</dd><dt>装弾</dt><dd>30 発・リロード 1.3 秒</dd><dt>即死</dt><dd>10%（ヘッドショット扱い）</dd><dt>得点</dt><dd>1 発 30</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="武器" data-text="銃で殴る 武器 拳銃の残弾が 0 のとき、r2 か □ を押すと空打ちの合図に続けて銃で殴る。 ダメージ 2,200 ノックバック 2.4 範囲 前方 1.25 m 再使用 0.35 秒 得点 当てた分は無し（倒せば 200）">
+    <div class="shot"><img src="anim/nike/gun_bash.webp" alt="銃で殴る" loading="lazy"></div>
+    <div class="body">
+      <h2>銃で殴る<span class="tag">武器</span></h2>
+      <div class="input"><span class="btn"><b>R2</b><i>U</i></span></div>
+      <p class="desc">拳銃の残弾が 0 のとき、R2 か □ を押すと空打ちの合図に続けて銃で殴る。</p>
+      <dl class="meta"><dt>ダメージ</dt><dd>2,200</dd><dt>ノックバック</dt><dd>2.4</dd><dt>範囲</dt><dd>前方 1.25 m</dd><dt>再使用</dt><dd>0.35 秒</dd><dt>得点</dt><dd>当てた分は無し（倒せば 200）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="必殺" data-text="回転飛び蹴り 必殺 向いている側 1.5 m 以内に掴める敵がいないときの △。走り込んで跳び、周りをまとめて吹き飛ばす。 ダメージ 5,500 ノックバック 10.0 範囲 半径 3.9 m、または正面 4.2 m × 幅 2.1 m 消費 自分の hp 1,500（hp が 1,500 以下なら出ない） 再使用 1.63 秒 無敵 技の間ずっと 得点 当てた分は無し（倒せば 200）">
+    <div class="shot"><img src="anim/nike/spin_kick.webp" alt="回転飛び蹴り" loading="lazy"></div>
+    <div class="body">
+      <h2>回転飛び蹴り<span class="tag">必殺</span></h2>
+      <div class="input"><span class="btn"><b>△</b><i>O</i></span></div>
+      <p class="desc">向いている側 1.5 m 以内に掴める敵がいないときの △。走り込んで跳び、周りをまとめて吹き飛ばす。</p>
+      <dl class="meta"><dt>ダメージ</dt><dd>5,500</dd><dt>ノックバック</dt><dd>10.0</dd><dt>範囲</dt><dd>半径 3.9 m、または正面 4.2 m × 幅 2.1 m</dd><dt>消費</dt><dd>自分の HP 1,500（HP が 1,500 以下なら出ない）</dd><dt>再使用</dt><dd>1.63 秒</dd><dt>無敵</dt><dd>技の間ずっと</dd><dt>得点</dt><dd>当てた分は無し（倒せば 200）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="必殺" data-text="フランケンシュタイナー 必殺 向いている側 1.5 m 以内（奥行き差 0.6 m 以内）に掴める敵がいるときの △。相手の頭を腿で挟み、反動で頭から落とす。ボスと倒れている敵には出ない。 ダメージ 9,000＋必ずダウン 巻き込み aiニケから 1.5 m 以内の他の敵に 5,500＋ダウン 消費 hp 1,500 再使用 1.63 秒 無敵 技の間ずっと 得点 当てた分は無し（倒せば 200）">
+    <div class="shot"><img src="anim/nike/frankensteiner.webp" alt="フランケンシュタイナー" loading="lazy"></div>
+    <div class="body">
+      <h2>フランケンシュタイナー<span class="tag">必殺</span><span class="tag near">敵の近くで出る</span></h2>
+      <div class="input"><span class="btn"><b>△</b><i>O</i></span></div>
+      <p class="desc">向いている側 1.5 m 以内（奥行き差 0.6 m 以内）に掴める敵がいるときの △。相手の頭を腿で挟み、反動で頭から落とす。ボスと倒れている敵には出ない。</p>
+      <dl class="meta"><dt>ダメージ</dt><dd>9,000＋必ずダウン</dd><dt>巻き込み</dt><dd>AIニケから 1.5 m 以内の他の敵に 5,500＋ダウン</dd><dt>消費</dt><dd>HP 1,500</dd><dt>再使用</dt><dd>1.63 秒</dd><dt>無敵</dt><dd>技の間ずっと</dd><dt>得点</dt><dd>当てた分は無し（倒せば 200）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="カウンター" data-text="カウンター（膝→アッパー） カウンター 敵が赤い輪郭で振りかぶっている間に、正面 1.3 m 以内（奥行き差 0.6 m 以内）で □。敵を掴んで膝を 3 発入れ、アッパーで打ち上げる。ボスには出ない。 ダメージ 膝 1,500×3 ＋ アッパー 4,000＝ 8,500 アッパー 必ずダウン 無敵 アッパーが当たるまで 再使用 0.6 秒 得点 1 発 100（4 発で 400）">
+    <div class="shot"><img src="anim/nike/counter.webp" alt="カウンター（膝→アッパー）" loading="lazy"></div>
+    <div class="body">
+      <h2>カウンター（膝→アッパー）<span class="tag">カウンター</span><span class="tag near">敵の近くで出る</span></h2>
+      <div class="input"><span class="btn"><b>□</b><i>J</i></span></div>
+      <p class="desc">敵が赤い輪郭で振りかぶっている間に、正面 1.3 m 以内（奥行き差 0.6 m 以内）で □。敵を掴んで膝を 3 発入れ、アッパーで打ち上げる。ボスには出ない。</p>
+      <dl class="meta"><dt>ダメージ</dt><dd>膝 1,500×3 ＋ アッパー 4,000＝ 8,500</dd><dt>アッパー</dt><dd>必ずダウン</dd><dt>無敵</dt><dd>アッパーが当たるまで</dd><dt>再使用</dt><dd>0.6 秒</dd><dt>得点</dt><dd>1 発 100（4 発で 400）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="回復" data-text="踊って回復 回復 ○ を押している間だけ踊り、hp を回復する。止まっていないと始まらず、動く・攻撃する・被弾するとやめる。 回復 毎秒 1,000（1〜12% 上振れ） 最大 hp 30,000">
+    <div class="shot"><img src="anim/nike/dance.webp" alt="踊って回復" loading="lazy"></div>
+    <div class="body">
+      <h2>踊って回復<span class="tag">回復</span></h2>
+      <div class="input"><span class="btn"><b>○</b><i>E</i></span></div>
+      <p class="desc">○ を押している間だけ踊り、HP を回復する。止まっていないと始まらず、動く・攻撃する・被弾するとやめる。</p>
+      <dl class="meta"><dt>回復</dt><dd>毎秒 1,000（1〜12% 上振れ）</dd><dt>最大 HP</dt><dd>30,000</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="回避" data-text="回避（バックフリップ） 回避 向いている側と逆へ宙返りして下がる。跳んでいる間はずっと無敵。 距離 2.85 m 後ろ 時間 0.66 秒 無敵 0.66 秒（全体） 再使用 終わってから 0.45 秒">
+    <div class="shot"><img src="anim/nike/dodge.webp" alt="回避（バックフリップ）" loading="lazy"></div>
+    <div class="body">
+      <h2>回避（バックフリップ）<span class="tag">回避</span></h2>
+      <div class="input"><span class="btn"><b>R1</b><i>Space</i></span></div>
+      <p class="desc">向いている側と逆へ宙返りして下がる。跳んでいる間はずっと無敵。</p>
+      <dl class="meta"><dt>距離</dt><dd>2.85 m 後ろ</dd><dt>時間</dt><dd>0.66 秒</dd><dt>無敵</dt><dd>0.66 秒（全体）</dd><dt>再使用</dt><dd>終わってから 0.45 秒</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="追い打ち" data-text="追い打ち（踏みつけ） 追い打ち 倒れて寝ている敵（hp が残っている）の頭が、向いている側 1.6 m 以内（後ろは 0.3 m まで）・奥行き差 0.6 m 以内にあるときの ×。キックより先に出る。× を押すたびに追い打ちを行う。 ダメージ 2,000 無敵 無し 得点 当てた分は無し（倒せば 200）">
+    <div class="shot"><img src="anim/nike/stomp.webp" alt="追い打ち（踏みつけ）" loading="lazy"></div>
+    <div class="body">
+      <h2>追い打ち（踏みつけ）<span class="tag">追い打ち</span><span class="tag near">敵の近くで出る</span></h2>
+      <div class="input"><span class="btn"><b>×</b><i>K</i></span></div>
+      <p class="desc">倒れて寝ている敵（HP が残っている）の頭が、向いている側 1.6 m 以内（後ろは 0.3 m まで）・奥行き差 0.6 m 以内にあるときの ×。キックより先に出る。× を押すたびに追い打ちを行う。</p>
+      <dl class="meta"><dt>ダメージ</dt><dd>2,000</dd><dt>無敵</dt><dd>無し</dd><dt>得点</dt><dd>当てた分は無し（倒せば 200）</dd></dl>
+    </div>
+  </article>
+  </div>
+</main>
+<footer class="wrap">
+  <p>本作品は「<a href="https://nikechan.com/" target="_blank" rel="noopener">AIニケちゃん</a>」と「<a href="https://niku.studio/" target="_blank" rel="noopener">ニクちゃん</a>」の非公式ファンメイド作品です。原作・公式とは関係ありません。<br>
+  This is an unofficial fan-made work of <a href="https://nikechan.com/" target="_blank" rel="noopener">AI Nike-chan</a> and <a href="https://niku.studio/" target="_blank" rel="noopener">Niku-chan</a>. Not affiliated with or endorsed by the creator.</p>
+</footer>
+<script>
+const cards=[...document.querySelectorAll('.card')];const q=document.getElementById('q');
+const btns=[...document.querySelectorAll('.tools button')];let cat='';
+function apply(){const s=q.value.trim().toLowerCase();let n=0;for(const c of cards){const ok=(!cat||c.dataset.cat===cat)&&(!s||c.dataset.text.includes(s));c.style.display=ok?'':'none';if(ok)n++;}
+document.getElementById('count').textContent=n+' / '+cards.length+' 件';}
+for(const b of btns)b.onclick=()=>{cat=b.dataset.cat;btns.forEach(x=>x.classList.toggle('on',x===b));apply();};
+q.oninput=apply;apply();
+</script>
+</body>
+</html>
