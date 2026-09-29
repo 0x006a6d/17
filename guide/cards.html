@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>強化カードと役</title>
+<style>
+:root { --bg:#14161b; --panel:#1c1f27; --line:#2b2f3a; --fg:#e8e9ee; --dim:#9aa0b0; --accent:#d3a24a; --near:#d06a6a; --char:#3f9a6a; --paper:#f7f3ec; --ink:#1b1b1b; --red:#c8261e; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:"Yu Gothic UI","Meiryo",system-ui,sans-serif; line-height:1.7; }
+.wrap { max-width:1360px; margin:0 auto; padding:0 16px; }
+header { padding:22px 0 16px; border-bottom:1px solid var(--line); }
+nav { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+nav a { color:var(--dim); text-decoration:none; border:1px solid var(--line); border-radius:5px; padding:4px 12px; font-size:14px; }
+nav a.on { color:var(--fg); border-color:var(--char); background:#232735; }
+h1 { margin:0 0 6px; font-size:22px; font-weight:600; }
+h1 span { color:var(--char); }
+.lead { margin:0; color:var(--dim); font-size:14px; }
+section.info { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr)); padding:18px 0 4px; }
+.box { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; font-size:13.5px; }
+.box h3 { margin:0 0 8px; font-size:14px; color:var(--accent); font-weight:600; }
+.box table { border-collapse:collapse; width:100%; }
+.box th { text-align:left; color:var(--dim); font-weight:400; padding:4px 6px; }
+.box td { padding:4px 6px; border-top:1px solid var(--line); vertical-align:top; }
+.box td.num { white-space:nowrap; color:var(--accent); }
+.box ul { margin:0; padding-left:18px; }
+.box img { display:block; width:100%; border-radius:5px; margin:0 0 8px; }
+.box p { margin:0 0 6px; }
+.tools { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:16px 0 0; }
+.tools button { background:#232735; color:var(--dim); border:1px solid var(--line); border-radius:5px; padding:5px 11px; font:inherit; font-size:13px; cursor:pointer; }
+.tools button.on { color:var(--fg); border-color:var(--char); }
+input[type=search] { background:#232735; color:var(--fg); border:1px solid var(--line); border-radius:5px; padding:6px 10px; font:inherit; font-size:14px; }
+.count { color:var(--dim); font-size:13px; }
+main { padding:18px 0 60px; }
+.grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr)); }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; display:flex; flex-direction:column; }
+.face { background:var(--paper); color:var(--ink); margin:12px 12px 0; border-radius:8px; padding:14px 12px 12px; text-align:center; min-height:150px; display:flex; flex-direction:column; justify-content:center; font-family:"Yu Mincho","Hiragino Mincho ProN",serif; }
+.face h2 { margin:0 0 8px; font-size:19px; color:var(--red); font-weight:700; }
+.face .eff { margin:0; font-size:14px; font-weight:600; }
+.face .dem { margin:8px 0 0; font-size:13.5px; color:var(--red); font-weight:600; }
+.body { padding:10px 14px 14px; }
+.tag { font-size:11.5px; color:var(--dim); border:1px solid var(--line); border-radius:3px; padding:0 6px; }
+dl.meta { display:grid; grid-template-columns:auto 1fr; gap:3px 12px; margin:8px 0 0; font-size:12.5px; }
+dt { color:var(--dim); white-space:nowrap; } dd { margin:0; }
+footer { border-top:1px solid var(--line); color:var(--dim); font-size:12.5px; padding:18px 0 40px; }
+footer a { color:var(--fg); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav><a href="../characters/nike.html">AIニケ</a><a href="../characters/mikaze.html">ミカゼ</a><a href="../characters/niku.html">ニク</a><a href="cards.html" class="on">強化カード</a><a href="rules.html">状態と決まり</a><a href="coop.html">2人プレイ・トレーニング</a></nav>
+    <h1><span>強化カード</span> と役</h1>
+    <p class="lead">面と面の間に、3 枚のカードから強化を 1 つ選ぶ。カードにはトランプのマークと数字が付き、取ったカードでポーカーの役ができると、持っている強化の効果がまとめて上がる。カードは全 51 種。</p>
+    <section class="info">
+      <div class="box"><h3>強化の選び方</h3><img src="img/upgrade_pick.webp" alt="強化の選択画面" loading="lazy"><ul><li>1 面の前と、1〜5 面のボスを倒した後の計 6 回、配られた 3 枚から 1 枚を取る。</li><li>一度取った強化は二度と配られない。</li><li>取ったカードは手札として画面の右上に並ぶ。</li><li>2 人プレイでは 1P、2P がそれぞれ選び、それぞれの手札で役を作る。CPU の相方は 1P と同じ強化と役になる。</li></ul></div>
+      <div class="box"><h3>カードのマークと数字</h3><ul><li>1 人ごとにトランプ 52 枚（♠♥♦♣ × A〜K）の山があり、配るたびにそこから重ならない 3 枚のマークと数字が付く。</li><li>マークと数字は強化の種類とは関係なく毎回変わる。どの強化を取るかと、どの札を取るかを一緒に考えることになる。</li><li>取った札は手札になり、山から抜ける。取らなかった 2 枚は山に戻る。</li><li>ジョーカーを取ると、その札は手札の中でどの札の代わりにもなる（数字の代わりに JK と出る）。</li></ul></div>
+      <div class="box"><h3>役と上げ幅</h3><table><tr><th>役</th><th>各強化の効果</th></tr><tr><td>役なし</td><td class="num">変わらない</td></tr><tr><td>ワンペア</td><td class="num">+10%</td></tr><tr><td>ツーペア</td><td class="num">+20%</td></tr><tr><td>スリーカード</td><td class="num">+30%</td></tr><tr><td>ストレート</td><td class="num">+40%</td></tr><tr><td>フラッシュ</td><td class="num">+50%</td></tr><tr><td>フルハウス</td><td class="num">+60%</td></tr><tr><td>フォーカード</td><td class="num">+80%</td></tr><tr><td>ストレートフラッシュ</td><td class="num">+100%</td></tr></table><p style="margin-top:8px">手札の中で一番強い役を取る。ストレートは A-2-3-4-5 と 10-J-Q-K-A のどちらも作れるが、K-A-2 のように回り込む並びは作れない。</p></div>
+      <div class="box"><h3>面ごとに作れる役</h3><img src="img/upgrade_hand.webp" alt="役ができたときの表示" loading="lazy"><table><tr><th>面に入る時点の手札</th><th>作れる役</th></tr><tr><td>1 面：1 枚</td><td>なし</td></tr><tr><td>2 面：2 枚</td><td>ワンペア</td></tr><tr><td>3 面：3 枚</td><td>＋スリーカード</td></tr><tr><td>4 面：4 枚</td><td>＋ツーペア、フォーカード</td></tr><tr><td>5 面：5 枚</td><td>すべての役</td></tr><tr><td>6 面：6 枚</td><td>すべての役（6 枚のうち 5 枚で一番強い組）</td></tr></table><p style="margin-top:8px">役は取るたびに決まり、次の面から効く。前より強い役になったときだけ、画面の真ん中に役の名前と上げ幅が出る。札は増える一方なので、役が弱くなることはない。</p></div>
+      <div class="box"><h3>効果の上がり方</h3><ul><li>役は、役を作った札だけでなく手札のすべての強化に効く。</li><li>強化の良い方の数値に 1＋上げ幅を掛ける。例: 鉄拳の近接の攻撃力 +20% は、フラッシュ（+50%）で +30%。</li><li>デメリットは上がらない。例: 背水の回避の再使用待ち +500% はどの役でも +500% のまま。</li><li>貫通・逃げ足・重装・レーザーサイト・ジョーカー・誤射防止のように数値の無い強化は、役ができても変わらない。</li><li>カードの文言は元の数値のまま表示される（役で上がった数値には書き換わらない）。</li></ul></div>
+      <div class="box"><h3>強化の重なり方</h3><ul><li>同じ種類の強化は足し算で重なる。例: 鉄拳 +20% と拳ひとつ +100% で、近接の攻撃力は 2.2 倍。デメリットも同じ合計に入る。</li><li>逃げ足を持つと、回避の再使用待ちはほかのカードのデメリットごと 0 になる。</li><li>キャラの特長は強化とは別に掛け算で掛かる。AIニケは攻撃の速さ 1.2 倍と必殺の範囲 1.5 倍、ニクは攻撃力 1.2 倍。</li><li>踏みつけ（倒れた敵）・追い打ち（まひ・毒の敵）・締めの一撃（コンボの締め）は、攻撃力の強化とは別に掛かる。例: 捨て身 +50% と踏みつけ +50% で、倒れた敵には 1.5 × 1.5 ＝ 2.25 倍。</li><li>賭けはスコア 1 万点ごと、場数は敵 10 体ごとに上がり続け、上限は無い。1 面から 6 面を通すと倒す敵は約 130 体。</li></ul></div>
+    </section>
+    <div class="tools"><button data-cat="" class="on">すべて</button><button data-cat="近接">近接</button><button data-cat="射撃">射撃</button><button data-cat="移動・回避">移動・回避</button><button data-cat="攻撃全般">攻撃全般</button><button data-cat="積み上げ">積み上げ</button><button data-cat="必殺・回復">必殺・回復</button><button data-cat="その他">その他</button><input type="search" id="q" placeholder="名前・効果で絞り込み" size="24"><span class="count" id="count"></span></div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="grid">
+  <article class="card" data-cat="近接" data-text="早振り 近接 近接の攻撃速度 +20% 移動速度 -10% 近接の攻撃速度 移動速度 -10%">
+    <div class="face"><h2>早振り</h2><p class="eff">近接の攻撃速度 +20%</p><p class="dem">移動速度 -10%</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>近接の攻撃速度</dd><dt>上がらない</dt><dd>移動速度 -10%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="鉄拳 近接 近接の攻撃力 +20% 移動速度 -10% 回避の再使用待ち +200% 近接の攻撃力 移動速度 -10%、回避の再使用待ち +200%">
+    <div class="face"><h2>鉄拳</h2><p class="eff">近接の攻撃力 +20%</p><p class="dem">移動速度 -10%<br>回避の再使用待ち +200%</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>近接の攻撃力</dd><dt>上がらない</dt><dd>移動速度 -10%、回避の再使用待ち +200%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="長腕 近接 近接の射程 +15% 移動速度 -10% 近接の射程 移動速度 -10%">
+    <div class="face"><h2>長腕</h2><p class="eff">近接の射程 +15%</p><p class="dem">移動速度 -10%</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>近接の射程</dd><dt>上がらない</dt><dd>移動速度 -10%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="豪打 近接 ふっとばし距離 +50%  ふっとばし距離 ">
+    <div class="face"><h2>豪打</h2><p class="eff">ふっとばし距離 +50%</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>ふっとばし距離</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="背水 近接 近接の攻撃速度 +50% 回避の再使用待ち +500% 近接の攻撃速度 回避の再使用待ち +500%">
+    <div class="face"><h2>背水</h2><p class="eff">近接の攻撃速度 +50%</p><p class="dem">回避の再使用待ち +500%</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>近接の攻撃速度</dd><dt>上がらない</dt><dd>回避の再使用待ち +500%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="拳ひとつ 近接 近接の攻撃力 +100% 射撃が使えない 近接の攻撃力 射撃が使えない">
+    <div class="face"><h2>拳ひとつ</h2><p class="eff">近接の攻撃力 +100%</p><p class="dem">射撃が使えない</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>近接の攻撃力</dd><dt>上がらない</dt><dd>射撃が使えない</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="大振り 近接 近接の射程と吹っ飛ばし +50% 攻撃の後隙 +50% 近接の射程と吹っ飛ばし 攻撃の後隙">
+    <div class="face"><h2>大振り</h2><p class="eff">近接の射程と吹っ飛ばし +50%</p><p class="dem">攻撃の後隙 +50%</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>近接の射程と吹っ飛ばし</dd><dt>上がらない</dt><dd>攻撃の後隙</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="射撃" data-text="速射 射撃 射撃の連射速度 +20% 被弾すると必ずダウン 射撃の連射速度 被弾すると必ずダウン">
+    <div class="face"><h2>速射</h2><p class="eff">射撃の連射速度 +20%</p><p class="dem">被弾すると必ずダウン</p></div>
+    <div class="body"><span class="tag">射撃</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>射撃の連射速度</dd><dt>上がらない</dt><dd>被弾すると必ずダウン</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="射撃" data-text="硬弾 射撃 射撃の攻撃力 +20% 移動速度 -10% 回避の再使用待ち +200% 射撃の攻撃力 移動速度 -10%、回避の再使用待ち +200%">
+    <div class="face"><h2>硬弾</h2><p class="eff">射撃の攻撃力 +20%</p><p class="dem">移動速度 -10%<br>回避の再使用待ち +200%</p></div>
+    <div class="body"><span class="tag">射撃</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>射撃の攻撃力</dd><dt>上がらない</dt><dd>移動速度 -10%、回避の再使用待ち +200%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="射撃" data-text="貫通 射撃 射撃が敵を貫通する  なし（すべての敵を貫く） ">
+    <div class="face"><h2>貫通</h2><p class="eff">射撃が敵を貫通する</p></div>
+    <div class="body"><span class="tag">射撃</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>上がらない（すべての敵を貫く）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="射撃" data-text="跳弾 射撃 射撃の命中後、近くの敵へ1回跳ね返る  跳ね返る先を探す範囲（5m） ">
+    <div class="face"><h2>跳弾</h2><p class="eff">射撃の命中後、近くの敵へ1回跳ね返る</p></div>
+    <div class="body"><span class="tag">射撃</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>跳ね返る先を探す範囲（5m）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="射撃" data-text="痺れ 射撃 射撃が当たると 15% の確率で3秒まひ  まひさせる確率（15%） ">
+    <div class="face"><h2>痺れ</h2><p class="eff">射撃が当たると 15% の確率で3秒まひ</p></div>
+    <div class="body"><span class="tag">射撃</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>まひさせる確率（15%）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="射撃" data-text="弾切れ覚悟 射撃 射撃の攻撃力 +100% 弾数 -50%、移動速度 -50%、攻撃速度 -10% 射撃の攻撃力 弾数、移動速度、攻撃速度">
+    <div class="face"><h2>弾切れ覚悟</h2><p class="eff">射撃の攻撃力 +100%</p><p class="dem">弾数 -50%、移動速度 -50%、攻撃速度 -10%</p></div>
+    <div class="body"><span class="tag">射撃</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>射撃の攻撃力</dd><dt>上がらない</dt><dd>弾数、移動速度、攻撃速度</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="移動・回避" data-text="俊足 移動・回避 移動速度 +20% 回避の再使用待ち +200% 移動速度 回避の再使用待ち +200%">
+    <div class="face"><h2>俊足</h2><p class="eff">移動速度 +20%</p><p class="dem">回避の再使用待ち +200%</p></div>
+    <div class="body"><span class="tag">移動・回避</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>移動速度</dd><dt>上がらない</dt><dd>回避の再使用待ち +200%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="移動・回避" data-text="逃げ足 移動・回避 回避の再使用待ち時間なし  なし（回避の再使用待ちが 0 のまま） ">
+    <div class="face"><h2>逃げ足</h2><p class="eff">回避の再使用待ち時間なし</p></div>
+    <div class="body"><span class="tag">移動・回避</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>上がらない（回避の再使用待ちが 0 のまま）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="勢い 攻撃全般 敵を倒すと3秒間、移動速度と攻撃速度 +50%  倒した後の移動速度と攻撃速度の上がり幅 ">
+    <div class="face"><h2>勢い</h2><p class="eff">敵を倒すと3秒間、移動速度と攻撃速度 +50%</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>倒した後の移動速度と攻撃速度の上がり幅</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="壁叩き 攻撃全般 吹っ飛んだ敵が壁や画面端にぶつかると追加ダメージ  追加ダメージ ">
+    <div class="face"><h2>壁叩き</h2><p class="eff">吹っ飛んだ敵が壁や画面端にぶつかると追加ダメージ</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>追加ダメージ</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="玉突き 攻撃全般 吹っ飛んだ敵が他の敵に当たると、その敵にダメージとのけぞり  当たった敵へのダメージ ">
+    <div class="face"><h2>玉突き</h2><p class="eff">吹っ飛んだ敵が他の敵に当たると、その敵にダメージとのけぞり</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>当たった敵へのダメージ</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="移動・回避" data-text="突進 移動・回避 回避中に敵にダメージ 回避の再使用待ち +200% 体当たりのダメージ 回避の再使用待ち +200%">
+    <div class="face"><h2>突進</h2><p class="eff">回避中に敵にダメージ</p><p class="dem">回避の再使用待ち +200%</p></div>
+    <div class="body"><span class="tag">移動・回避</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>体当たりのダメージ</dd><dt>上がらない</dt><dd>回避の再使用待ち +200%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="誘爆 攻撃全般 倒した敵が小爆発して周りにダメージ  爆発のダメージ ">
+    <div class="face"><h2>誘爆</h2><p class="eff">倒した敵が小爆発して周りにダメージ</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>爆発のダメージ</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="連撃 攻撃全般 10ヒットごとに攻撃力 +5% 最大 +50%、被弾で0に戻る  1段ごとの上がり幅（5%）と上限（50%）の両方 ">
+    <div class="face"><h2>連撃</h2><p class="eff">10ヒットごとに攻撃力 +5%<br>最大 +50%、被弾で0に戻る</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>1段ごとの上がり幅（5%）と上限（50%）の両方</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="毒 攻撃全般 近接・射撃が当たると 20% で毒 毒を持つ敵の攻撃で毒になる確率 +50% 毒にする確率（20%） 毒になる確率">
+    <div class="face"><h2>毒</h2><p class="eff">近接・射撃が当たると 20% で毒</p><p class="dem">毒を持つ敵の攻撃で毒になる確率 +50%</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>毒にする確率（20%）</dd><dt>上がらない</dt><dd>毒になる確率</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="捨て身 攻撃全般 攻撃力 +50% 移動速度 -50% 回避の再使用待ち +500% 攻撃力 移動速度 -50%、回避の再使用待ち +500%">
+    <div class="face"><h2>捨て身</h2><p class="eff">攻撃力 +50%</p><p class="dem">移動速度 -50%<br>回避の再使用待ち +500%</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>攻撃力</dd><dt>上がらない</dt><dd>移動速度 -50%、回避の再使用待ち +500%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="移動・回避" data-text="軽装 移動・回避 移動速度 +50% 攻撃速度 -10% 移動速度 攻撃速度 -10%">
+    <div class="face"><h2>軽装</h2><p class="eff">移動速度 +50%</p><p class="dem">攻撃速度 -10%</p></div>
+    <div class="body"><span class="tag">移動・回避</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>移動速度</dd><dt>上がらない</dt><dd>攻撃速度 -10%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="移動・回避" data-text="重装 移動・回避 のけぞらない。即死耐性 移動速度 -20% 回避できない なし（のけぞらない・即死しないのまま） 移動速度、回避できない">
+    <div class="face"><h2>重装</h2><p class="eff">のけぞらない。即死耐性</p><p class="dem">移動速度 -20%<br>回避できない</p></div>
+    <div class="body"><span class="tag">移動・回避</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>上がらない（のけぞらない・即死しないのまま）</dd><dt>上がらない</dt><dd>移動速度、回避できない</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="積み上げ" data-text="賭け（攻撃力） 積み上げ スコア1万点ごとに攻撃力 +3%  1万点ごとの上がり幅（3%） ">
+    <div class="face"><h2>賭け（攻撃力）</h2><p class="eff">スコア1万点ごとに攻撃力 +3%</p></div>
+    <div class="body"><span class="tag">積み上げ</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>1万点ごとの上がり幅（3%）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="積み上げ" data-text="賭け（移動速度） 積み上げ スコア1万点ごとに移動速度 +3%  1万点ごとの上がり幅（3%） ">
+    <div class="face"><h2>賭け（移動速度）</h2><p class="eff">スコア1万点ごとに移動速度 +3%</p></div>
+    <div class="body"><span class="tag">積み上げ</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>1万点ごとの上がり幅（3%）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="積み上げ" data-text="賭け（攻撃速度） 積み上げ スコア1万点ごとに攻撃速度と連射速度 +3%  1万点ごとの上がり幅（3%） ">
+    <div class="face"><h2>賭け（攻撃速度）</h2><p class="eff">スコア1万点ごとに攻撃速度と連射速度 +3%</p></div>
+    <div class="body"><span class="tag">積み上げ</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>1万点ごとの上がり幅（3%）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="射撃" data-text="レーザーサイト 射撃 銃で構えたときに、レーザーサイトを照射  なし（見た目だけ） ">
+    <div class="face"><h2>レーザーサイト</h2><p class="eff">銃で構えたときに、レーザーサイトを照射</p></div>
+    <div class="body"><span class="tag">射撃</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>上がらない（見た目だけ）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="積み上げ" data-text="場数（攻撃力） 積み上げ 敵を10体倒すごとに攻撃力 +3%  10体ごとの上がり幅（3%） ">
+    <div class="face"><h2>場数（攻撃力）</h2><p class="eff">敵を10体倒すごとに攻撃力 +3%</p></div>
+    <div class="body"><span class="tag">積み上げ</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>10体ごとの上がり幅（3%）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="積み上げ" data-text="場数（移動速度） 積み上げ 敵を10体倒すごとに移動速度 +3%  10体ごとの上がり幅（3%） ">
+    <div class="face"><h2>場数（移動速度）</h2><p class="eff">敵を10体倒すごとに移動速度 +3%</p></div>
+    <div class="body"><span class="tag">積み上げ</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>10体ごとの上がり幅（3%）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="積み上げ" data-text="場数（攻撃速度） 積み上げ 敵を10体倒すごとに攻撃速度と連射速度 +3%  10体ごとの上がり幅（3%） ">
+    <div class="face"><h2>場数（攻撃速度）</h2><p class="eff">敵を10体倒すごとに攻撃速度と連射速度 +3%</p></div>
+    <div class="body"><span class="tag">積み上げ</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>10体ごとの上がり幅（3%）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="移動・回避" data-text="見切り 移動・回避 回避で敵の攻撃をすり抜けると、1秒間攻撃力 +30%  すり抜けた後の攻撃力 ">
+    <div class="face"><h2>見切り</h2><p class="eff">回避で敵の攻撃をすり抜けると、1秒間攻撃力 +30%</p></div>
+    <div class="body"><span class="tag">移動・回避</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>すり抜けた後の攻撃力</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="移動・回避" data-text="残像 移動・回避 回避の距離 +30% 回避の再使用待ち +100% 回避の距離 回避の再使用待ち +100%">
+    <div class="face"><h2>残像</h2><p class="eff">回避の距離 +30%</p><p class="dem">回避の再使用待ち +100%</p></div>
+    <div class="body"><span class="tag">移動・回避</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>回避の距離</dd><dt>上がらない</dt><dd>回避の再使用待ち +100%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="踏みつけ 近接 倒れた敵への攻撃力 +50%  倒れた敵への攻撃力 ">
+    <div class="face"><h2>踏みつけ</h2><p class="eff">倒れた敵への攻撃力 +50%</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>倒れた敵への攻撃力</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="必殺・回復" data-text="舞い上手 必殺・回復 踊りの回復量 +50%  踊りの回復量 ">
+    <div class="face"><h2>舞い上手</h2><p class="eff">踊りの回復量 +50%</p></div>
+    <div class="body"><span class="tag">必殺・回復</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>踊りの回復量</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="必殺・回復" data-text="吸血 必殺・回復 敵を倒すと最大 hp の 10% を回復 踊りで回復できない 倒したときの回復量（最大 hp の 10%） 踊りで回復できない">
+    <div class="face"><h2>吸血</h2><p class="eff">敵を倒すと最大 HP の 10% を回復</p><p class="dem">踊りで回復できない</p></div>
+    <div class="body"><span class="tag">必殺・回復</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>倒したときの回復量（最大 HP の 10%）</dd><dt>上がらない</dt><dd>踊りで回復できない</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="崖っぷち 攻撃全般 hp 30% 以下のとき攻撃力 +50%  hp 30% 以下のときの攻撃力 ">
+    <div class="face"><h2>崖っぷち</h2><p class="eff">HP 30% 以下のとき攻撃力 +50%</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>HP 30% 以下のときの攻撃力</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="射撃" data-text="大口径 射撃 銃の即死の確率が 2倍 弾数 -30% 銃の即死の確率 弾数 -30%">
+    <div class="face"><h2>大口径</h2><p class="eff">銃の即死の確率が 2倍</p><p class="dem">弾数 -30%</p></div>
+    <div class="body"><span class="tag">射撃</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>銃の即死の確率</dd><dt>上がらない</dt><dd>弾数 -30%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="峰打ち 近接 敵のガードを崩しやすくなる（のけぞり耐性を 30% 下げる）  のけぞり耐性を下げる割合（30%） ">
+    <div class="face"><h2>峰打ち</h2><p class="eff">敵のガードを崩しやすくなる（のけぞり耐性を 30% 下げる）</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>のけぞり耐性を下げる割合（30%）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="その他" data-text="ジョーカー その他 手札の中でどのカードの代わりにもなる（役が作りやすくなる） このカード自体の効果は無い なし（役を作るためのカード） このカード自体の効果は無い">
+    <div class="face"><h2>ジョーカー</h2><p class="eff">手札の中でどのカードの代わりにもなる（役が作りやすくなる）</p><p class="dem">このカード自体の効果は無い</p></div>
+    <div class="body"><span class="tag">その他</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>上がらない（役を作るためのカード）</dd><dt>上がらない</dt><dd>このカード自体の効果は無い</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="締めの一撃 近接 コンボの締め（フック・ハイ・刀の三段目）の攻撃力 +50%  コンボの締めの攻撃力 ">
+    <div class="face"><h2>締めの一撃</h2><p class="eff">コンボの締め（フック・ハイ・刀の三段目）の攻撃力 +50%</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>コンボの締めの攻撃力</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="近接" data-text="繋ぎ上手 近接 コンボの次段の受付時間 +50%  コンボの次段の受付時間 ">
+    <div class="face"><h2>繋ぎ上手</h2><p class="eff">コンボの次段の受付時間 +50%</p></div>
+    <div class="body"><span class="tag">近接</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>コンボの次段の受付時間</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="必殺・回復" data-text="省エネ 必殺・回復 必殺で使う hp -50%  必殺で使う hp を減らす割合 ">
+    <div class="face"><h2>省エネ</h2><p class="eff">必殺で使う HP -50%</p></div>
+    <div class="body"><span class="tag">必殺・回復</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>必殺で使う HP を減らす割合</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="必殺・回復" data-text="大技 必殺・回復 必殺の範囲とダメージ +50% 必殺で使う hp +50% 必殺の範囲とダメージ 必殺で使う hp +50%">
+    <div class="face"><h2>大技</h2><p class="eff">必殺の範囲とダメージ +50%</p><p class="dem">必殺で使う HP +50%</p></div>
+    <div class="body"><span class="tag">必殺・回復</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>必殺の範囲とダメージ</dd><dt>上がらない</dt><dd>必殺で使う HP +50%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="追い打ち 攻撃全般 まひ・毒の敵への攻撃力 +40%  まひ・毒の敵への攻撃力 ">
+    <div class="face"><h2>追い打ち</h2><p class="eff">まひ・毒の敵への攻撃力 +40%</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>まひ・毒の敵への攻撃力</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="挑発 攻撃全般 敵の攻撃が自分に集まり、攻撃力 +20% 被ダメージ +20% 攻撃力 被ダメージ +20%">
+    <div class="face"><h2>挑発</h2><p class="eff">敵の攻撃が自分に集まり、攻撃力 +20%</p><p class="dem">被ダメージ +20%</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>攻撃力</dd><dt>上がらない</dt><dd>被ダメージ +20%</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="その他" data-text="連携 その他 自キャラクターと味方キャラクターの間の敵に10秒ごとに 10,000 のダメージ  10秒ごとのダメージ（10,000） ">
+    <div class="face"><h2>連携</h2><p class="eff">自キャラクターと味方キャラクターの間の敵に10秒ごとに 10,000 のダメージ</p></div>
+    <div class="body"><span class="tag">その他</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>10秒ごとのダメージ（10,000）</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="その他" data-text="誤射防止 その他 味方に攻撃が当たらない  なし ">
+    <div class="face"><h2>誤射防止</h2><p class="eff">味方に攻撃が当たらない</p></div>
+    <div class="body"><span class="tag">その他</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>上がらない</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="一撃必殺 攻撃全般 攻撃力 +150% 最大 hp が1になる 攻撃力 最大 hp が 1">
+    <div class="face"><h2>一撃必殺</h2><p class="eff">攻撃力 +150%</p><p class="dem">最大 HP が1になる</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>攻撃力</dd><dt>上がらない</dt><dd>最大 HP が 1</dd></dl>
+    </div>
+  </article>
+  <article class="card" data-cat="攻撃全般" data-text="狂戦士 攻撃全般 攻撃速度 +60% 回避できない、踊れない 攻撃速度 回避できない、踊れない">
+    <div class="face"><h2>狂戦士</h2><p class="eff">攻撃速度 +60%</p><p class="dem">回避できない、踊れない</p></div>
+    <div class="body"><span class="tag">攻撃全般</span>
+      <dl class="meta"><dt>役で上がる</dt><dd>攻撃速度</dd><dt>上がらない</dt><dd>回避できない、踊れない</dd></dl>
+    </div>
+  </article>
+  </div>
+</main>
+<footer class="wrap">
+  <p>本作品は「<a href="https://nikechan.com/" target="_blank" rel="noopener">AIニケちゃん</a>」と「<a href="https://niku.studio/" target="_blank" rel="noopener">ニクちゃん</a>」の非公式ファンメイド作品です。原作・公式とは関係ありません。<br>
+  This is an unofficial fan-made work of <a href="https://nikechan.com/" target="_blank" rel="noopener">AI Nike-chan</a> and <a href="https://niku.studio/" target="_blank" rel="noopener">Niku-chan</a>. Not affiliated with or endorsed by the creator.</p>
+</footer>
+<script>
+const cards=[...document.querySelectorAll('.card')];const q=document.getElementById('q');
+const btns=[...document.querySelectorAll('.tools button')];let cat='';
+function apply(){const s=q.value.trim().toLowerCase();let n=0;for(const c of cards){const ok=(!cat||c.dataset.cat===cat)&&(!s||c.dataset.text.includes(s));c.style.display=ok?'':'none';if(ok)n++;}
+document.getElementById('count').textContent=n+' / '+cards.length+' 枚';}
+for(const b of btns)b.onclick=()=>{cat=b.dataset.cat;btns.forEach(x=>x.classList.toggle('on',x===b));apply();};
+q.oninput=apply;apply();
+</script>
+</body>
+</html>

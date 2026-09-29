@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2人プレイとトレーニング</title>
+<style>
+:root { --bg:#14161b; --panel:#1c1f27; --line:#2b2f3a; --fg:#e8e9ee; --dim:#9aa0b0; --accent:#d3a24a; --char:#4a8fd0; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:"Yu Gothic UI","Meiryo",system-ui,sans-serif; line-height:1.7; }
+.wrap { max-width:1360px; margin:0 auto; padding:0 16px; }
+header { padding:22px 0 16px; border-bottom:1px solid var(--line); }
+nav { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+nav a { color:var(--dim); text-decoration:none; border:1px solid var(--line); border-radius:5px; padding:4px 12px; font-size:14px; }
+nav a.on { color:var(--fg); border-color:var(--char); background:#232735; }
+h1 { margin:0 0 6px; font-size:22px; font-weight:600; }
+h1 span { color:var(--char); }
+.lead { margin:0; color:var(--dim); font-size:14px; }
+main { padding:18px 0 60px; }
+h2.sec { font-size:16px; font-weight:600; color:var(--char); margin:26px 0 10px; }
+h2.sec:first-child { margin-top:0; }
+.grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr)); }
+.box { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; font-size:13.5px; }
+.box h3 { margin:0 0 8px; font-size:14px; color:var(--accent); font-weight:600; }
+.box table { border-collapse:collapse; width:100%; }
+.box th { text-align:left; color:var(--dim); font-weight:400; padding:4px 6px; }
+.box td { padding:4px 6px; border-top:1px solid var(--line); vertical-align:top; }
+.box td.num { white-space:nowrap; color:var(--accent); }
+.box ul { margin:0; padding-left:18px; }
+.box p { margin:0 0 6px; }
+.box p.note { color:var(--dim); font-size:12.5px; margin-top:8px; }
+.btn { display:inline-flex; align-items:baseline; gap:5px; background:#262a36; border:1px solid #3a3f4e; border-radius:4px; padding:0 7px; font-size:12.5px; white-space:nowrap; }
+.btn i { font-style:normal; color:var(--dim); font-size:11.5px; }
+footer { border-top:1px solid var(--line); color:var(--dim); font-size:12.5px; padding:18px 0 40px; }
+footer a { color:var(--fg); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav><a href="../characters/nike.html">AIニケ</a><a href="../characters/mikaze.html">ミカゼ</a><a href="../characters/niku.html">ニク</a><a href="cards.html">強化カード</a><a href="rules.html">状態と決まり</a><a href="coop.html" class="on">2人プレイ・トレーニング</a></nav>
+    <h1><span>2 人プレイ</span>・トレーニング</h1>
+    <p class="lead">2 人での始め方、CPU の相方の動き、2 人のときの決まりと、トレーニングモードの中身をまとめた。</p>
+  </div>
+</header>
+<main class="wrap">
+<h2 class="sec">2 人で遊ぶ</h2>
+<div class="grid">
+<div class="box"><h3>始め方</h3><ul><li>タイトルで「2P」を選ぶと、左に 1P 用、右に 2P 用のキャラが並ぶ。</li><li>左で最初にキャラを決めた機器（キーボードかパッド）が 1P になる。</li><li>1P が決まったあとに<b>別の機器</b>を触ると、その機器が 2P として右側に入る。参加に使った○はそのまま決定にはならないので、選んでからもう一度押す。</li><li>右側を 1P と同じ機器で決めると、右側は CPU の相方になる。</li><li>同じキャラどうしでも選べる。決めたあとは戻る（<span class="btn"><b>Esc</b><i></i></span> ／ パッドの下ボタン）で取り消せる。</li></ul></div>
+<div class="box"><h3>機器の組み合わせ</h3><table><tr><th>つないでいるもの</th><th>右側</th></tr><tr><td>キーボードとパッド 1 台</td><td>人（パッドかキーボードのどちらか）</td></tr><tr><td>パッド 2 台</td><td>人</td></tr><tr><td>キーボードだけ</td><td>CPU の相方</td></tr><tr><td>パッド 1 台だけ</td><td>CPU の相方</td></tr></table><p class="note">キーボードとマウスはまとめて 1 台と数えるので、キーボード 1 枚で 2 人は遊べない。</p></div>
+<div class="box"><h3>2 人のときの決まり</h3><ul><li>残機・コンティニュー・得点は 2 人で共有。倒した敵の数（強化の「場数」）は 1 人ずつ数える。</li><li>敵の数が 1.5 倍になる（端数は切り上げ）。CPU の相方と遊ぶときも同じ。</li><li>カメラは立っている 2 人の真ん中を追う。</li><li>「GO →」で先へ進むには、生きている人が全員右端まで行く（CPU の相方は数えない）。</li><li>残機が尽きた人は倒れたまま待つ。2 人とも尽きるとコンティニューを聞かれ、続けると 2 人とも起き上がる。</li></ul></div>
+<div class="box"><h3>味方に当たる攻撃</h3><ul><li>2 人プレイでは、近接・銃・範囲の技が相方にも当たる。CPU の相方と遊ぶときも同じ。ダメージは敵に当てたときと同じで、即死だけは起きない。</li><li>強化「誤射防止」を取った人の攻撃は相方に当たらなくなる。CPU の相方は 1P と同じ強化を持つので、1P が取れば CPU の攻撃も 1P に当たらない。</li></ul></div>
+<div class="box"><h3>2 人で効く強化</h3><table><tr><th>強化</th><th>内容</th></tr><tr><td>連携</td><td>2 人の間（奥行き ±0.3 m まで）にいる敵に、10 秒ごとに 10,000 のダメージ。2 人の間を雷が走る。ガード中の敵にも当たり、当たった敵はのけぞる</td></tr><tr><td>誤射防止</td><td>自分の攻撃が味方に当たらない</td></tr><tr><td>挑発</td><td>敵が自分を優先して狙う。攻撃力 +20%、被ダメージ +20%</td></tr></table><p class="note">1 人で遊ぶときも候補に出る。1 人だと連携と誤射防止は効き目が無い。</p></div>
+<div class="box"><h3>強化の選択</h3><ul><li>1P、2P の順に 1 人ずつ選ぶ。選んでいる人の機器だけが操作できる。</li><li>トランプの山と手札も 1 人ずつ持ち、役も別々に決まる。</li><li>CPU の相方は選ばず、1P と同じ強化・手札・役になる。くわしくは<a href="cards.html" style="color:var(--fg)">強化カード</a>。</li></ul></div>
+</div>
+<h2 class="sec">CPU の相方</h2>
+<div class="grid">
+<div class="box"><h3>動き</h3><ul><li>画面内で 7 m 以内にいる一番近い敵を狙う。敵がいなければ 1P の 2.3 m ほど後ろについてくる。</li><li>近接なら 1.2 m まで詰めて殴り、銃なら 4〜6 m、ショットガンなら 1.5〜2 m の間合いを保って撃つ。</li><li>20 秒ごとに武器を持ち替え、弾が切れればリロードする。</li><li>こちらを向いて攻撃してくる敵が 1.6 m 以内にいると、20% で回避する。</li><li>必殺・踊り（回復）・つかみは使わない。射線を気にせず撃つ。</li></ul></div>
+<div class="box"><h3>倒れたとき</h3><ul><li>HP が 0 になると倒れ、共有の残機から 1 つ減る。3 秒後に自分で起き上がる。</li><li>HP を残したまま倒されたとき（投げられた・「被弾すると必ずダウン」など）は、点滅せず残機も減らない。</li><li>相方を起こす操作は無い。</li></ul></div>
+</div>
+<h2 class="sec">トレーニング</h2>
+<div class="grid">
+<div class="box"><h3>入り方と中身</h3><ul><li>タイトルで「トレーニング」を選ぶと、1 人用のキャラ選択が開く。3 人から選べる。</li><li>京都駅前から京都タワー、東本願寺へ続く街で、京都タワーと同じ高さ（131 m）の巨人になって暴れる。歩けばビルを踏み潰せる。</li><li>強化は持ち込めず、強化の選択も出ない。</li><li>技・武器の操作は本編と同じ。当てたダメージの数字も本編と同じように出る。</li></ul></div>
+<div class="box"><h3>京都タワー</h3><ul><li>殴り続けられる相手。HP が 0 になっても満タンに戻る。殴るのをやめると 0.6 秒後から少しずつ回復する。</li><li>ボスと同じように HP バーが出る。</li><li>動かないが、間合いに入ったプレイヤーを塔身を傾けて叩いてくる。叩く予備動作の間は、AIニケのカウンターとミカゼの当て身が入る。</li><li>つかんで <span class="btn"><b>×</b><i>K</i></span> で押し倒せる。倒れた塔の下の街は潰れる。</li><li>倒れると普通の敵と同じ時間だけ寝て、元の場所へ戻る。寝ている間は追い打ちが入る。</li></ul></div>
+<div class="box"><h3>自衛隊と制限時間</h3><ul><li>街区を 6 つ壊すと、戦車と攻撃ヘリが出てくる（同時に戦車 4 両・ヘリ 2 機まで）。ステルス機も飛んでくる。</li><li>制限時間は 180 秒。得点の欄が残り時間に変わり、残り 60 秒で黄、30 秒で赤になる。</li><li>時間切れになると足元で爆発してキャラが消え、タイトルへ戻る。</li><li>途中でやめるときは <span class="btn"><b>Esc</b><i></i></span>。</li></ul></div>
+</div>
+</main>
+<footer class="wrap">
+  <p>本作品は「<a href="https://nikechan.com/" target="_blank" rel="noopener">AIニケちゃん</a>」と「<a href="https://niku.studio/" target="_blank" rel="noopener">ニクちゃん</a>」の非公式ファンメイド作品です。原作・公式とは関係ありません。<br>
+  This is an unofficial fan-made work of <a href="https://nikechan.com/" target="_blank" rel="noopener">AI Nike-chan</a> and <a href="https://niku.studio/" target="_blank" rel="noopener">Niku-chan</a>. Not affiliated with or endorsed by the creator.</p>
+</footer>
+</body>
+</html>

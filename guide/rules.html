@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>状態と決まり</title>
+<style>
+:root { --bg:#14161b; --panel:#1c1f27; --line:#2b2f3a; --fg:#e8e9ee; --dim:#9aa0b0; --accent:#d3a24a; --char:#c06a6a; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:"Yu Gothic UI","Meiryo",system-ui,sans-serif; line-height:1.7; }
+.wrap { max-width:1360px; margin:0 auto; padding:0 16px; }
+header { padding:22px 0 16px; border-bottom:1px solid var(--line); }
+nav { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+nav a { color:var(--dim); text-decoration:none; border:1px solid var(--line); border-radius:5px; padding:4px 12px; font-size:14px; }
+nav a.on { color:var(--fg); border-color:var(--char); background:#232735; }
+h1 { margin:0 0 6px; font-size:22px; font-weight:600; }
+h1 span { color:var(--char); }
+.lead { margin:0; color:var(--dim); font-size:14px; }
+main { padding:18px 0 60px; }
+h2.sec { font-size:16px; font-weight:600; color:var(--char); margin:26px 0 10px; }
+h2.sec:first-child { margin-top:0; }
+.grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr)); }
+.box { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; font-size:13.5px; }
+.box h3 { margin:0 0 8px; font-size:14px; color:var(--accent); font-weight:600; }
+.box table { border-collapse:collapse; width:100%; }
+.box th { text-align:left; color:var(--dim); font-weight:400; padding:4px 6px; }
+.box td { padding:4px 6px; border-top:1px solid var(--line); vertical-align:top; }
+.box td.num { white-space:nowrap; color:var(--accent); }
+.box ul { margin:0; padding-left:18px; }
+.box p { margin:0 0 6px; }
+.box p.note { color:var(--dim); font-size:12.5px; margin-top:8px; }
+.btn { display:inline-flex; align-items:baseline; gap:5px; background:#262a36; border:1px solid #3a3f4e; border-radius:4px; padding:0 7px; font-size:12.5px; white-space:nowrap; }
+.btn i { font-style:normal; color:var(--dim); font-size:11.5px; }
+footer { border-top:1px solid var(--line); color:var(--dim); font-size:12.5px; padding:18px 0 40px; }
+footer a { color:var(--fg); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav><a href="../characters/nike.html">AIニケ</a><a href="../characters/mikaze.html">ミカゼ</a><a href="../characters/niku.html">ニク</a><a href="cards.html">強化カード</a><a href="rules.html" class="on">状態と決まり</a><a href="coop.html">2人プレイ・トレーニング</a></nav>
+    <h1><span>状態</span>と決まり</h1>
+    <p class="lead">ダメージの当たり方、毒・まひ・石化・即死、倒れてから起き上がるまで、得点と残機の決まりを 1 ページにまとめた。数値は 3 人に共通。</p>
+  </div>
+</header>
+<main class="wrap">
+<h2 class="sec">ダメージと当たり方</h2>
+<div class="grid">
+<div class="box"><h3>ダメージ</h3><ul><li>ダメージは表の値から 1〜12% 上振れする（下振れはしない。整数に丸める）。毒の減りも同じ。</li><li>攻撃は互いの奥行きの差が 0.6 m 以内でないと当たらない。自分の攻撃も敵の攻撃も同じ。</li><li>敵の輪郭が赤くなるのが攻撃の予告。</li></ul></div>
+<div class="box"><h3>敵の怯みとガード</h3><ul><li>敵は 1 発ごとには怯まない。短い間に受けたダメージの合計が一定量（ふつうの敵で 2,800、毎秒 2,000 ずつ戻る）を超えたときだけよろける。大柄な敵ほど怯みにくい。</li><li>怯まずに耐えた 1 発ごとに、40% で正面を構えて近接を弾く（正面 140°、1.1 秒）。2 回受け止めると 80% で殴り返してくる。</li><li>ガードが効くのは正面だけ。奥行きをずらして横か後ろに回れば通る。</li><li>4 面のゾンビは怯まない。</li></ul></div>
+<div class="box"><h3>カウンター</h3><ul><li>敵が赤い輪郭で振りかぶっている間（攻撃の判定が出る前）に近くで <span class="btn"><b>□</b><i>J</i></span> を押すと、AIニケとミカゼはカウンターを出す。</li><li>ボスには出ない。</li></ul></div>
+</div>
+<h2 class="sec">状態</h2>
+<div class="grid">
+<div class="box"><h3>毒</h3><ul><li>10 秒間、毎秒 1,000 前後（1〜12% 上振れ）ずつ HP が減る。のけぞりはしない。顔が紫になり、足元に紫の「どく」が出る。</li><li>毒で HP が 0 になると倒れる。プレイヤーは残機を 1 つ失い、敵は撃破になる（撃破の点も入る）。</li><li>かけ直されても重ならず、残り時間が 10 秒に戻るだけ。</li><li>治す方法は無い。時間切れか、倒れると解ける。踊りの回復（毎秒 1,000）で減りをほぼ打ち消せる。</li></ul><table><tr><th>毒にしてくるもの</th><th>確率</th></tr><tr><td>4 面のゾンビの攻撃</td><td class="num">100%</td></tr><tr><td>噛みつくゾンビ</td><td class="num">通常攻撃 50%、噛みつき 100%</td></tr><tr><td>6 面ボスの剣</td><td class="num">30%</td></tr></table><table><tr><th>敵を毒にするもの</th><th>確率</th></tr><tr><td>ニクのダーツ</td><td class="num">20%</td></tr><tr><td>強化「毒」（近接・射撃）</td><td class="num">20%</td></tr></table><p class="note">強化「毒」を持つと、毒を持つ敵の攻撃で自分が毒になる確率が +50% 上がる。</p></div>
+<div class="box"><h3>まひ</h3><ul><li>3 秒間、歩く・攻撃・ガード・パンチの見切りができず、その場で止まる。殴れば普通に当たり、吹き飛びもする。足元に白の「まひ」が出る。</li><li>敵にだけかかる。ボスにも効く（5 面のニケを除く）。</li><li>かけ直すと残り時間が 3 秒に戻る。</li></ul><table><tr><th>まひにするもの</th><th>確率</th></tr><tr><td>ニクのダーツ</td><td class="num">20%（毒とは別に抽選）</td></tr><tr><td>強化「痺れ」（射撃）</td><td class="num">15%</td></tr></table></div>
+<div class="box"><h3>石化</h3><ul><li>6 面ボスの盾を正面（90°・4 m 以内）で受けると、50% で 4 秒石になる。盾そのもののダメージは無い。</li><li>ボタンを押すたびに 0.25 秒早く解ける（最短 16 回）。</li><li><b>石の間に攻撃を受けると、威力に関係なく砕けて倒れ、残機を 1 つ失う。</b>毒の減りでは砕けない。</li><li>回避中・倒れている間・掴み中・必殺中は石にならない。2 人プレイでは相方も狙われる。</li></ul></div>
+<div class="box"><h3>即死</h3><ul><li>日本刀とナイフは 15%、銃は 10% で、当たった敵をその場で倒す。強化「大口径」で 2 倍になる。</li><li>ボスと 4 面の敵には起きない。味方にも起きない。</li><li>4 面のゾンビの攻撃は 10% でプレイヤーを即死させる（突進を除く）。強化「重装」を持つと即死しない。</li></ul></div>
+</div>
+<h2 class="sec">倒れる・起き上がる</h2>
+<div class="grid">
+<div class="box"><h3>敵</h3><ul><li>HP が 0 になると撃破。4 秒後に消える。</li><li>投げ・叩きつけ・カウンターなどで倒れても、HP が残っていれば撃破にならない。1.5 秒寝たあと約 2 秒で起き上がり、HP はそのまま。</li><li>寝ている敵に当たるのは、追い打ち（<span class="btn"><b>×</b><i>K</i></span>）・各キャラの △ の必殺・投げの巻き込み・カウンターの殴りだけ。寝ている間に HP が 0 になればその場で撃破。</li></ul></div>
+<div class="box"><h3>プレイヤー</h3><ul><li>ふつうの被弾ではのけぞるだけで、倒れない。</li><li>HP が 0 になると倒れて残機を 1 つ失う。3 秒倒れたあと約 1.7 秒で起き上がり、HP が全快する。倒れてから起き上がり終わるまでは無敵。</li><li>強化「速射」のデメリットの「被弾すると必ずダウン」では、HP を残したまま吹き飛んで倒れる。残機は減らない。</li></ul></div>
+</div>
+<h2 class="sec">得点・残機・設定</h2>
+<div class="grid">
+<div class="box"><h3>得点</h3><table><tr><th>加点・減点</th><th>値</th></tr><tr><td>素手が当たる</td><td class="num">100 × コンボの段数</td></tr><tr><td>日本刀・ナイフが当たる</td><td class="num">60 × 段数</td></tr><tr><td>銃が当たる</td><td class="num">30</td></tr><tr><td>敵を倒す</td><td class="num">200</td></tr><tr><td>HP が 0 で倒れる</td><td class="num">−500</td></tr><tr><td>ミカゼの △・○ を使う</td><td class="num">−10,000</td></tr></table><p class="note">得点は 0 未満にはならない。段を掛けるので、素手で長く繋ぐほど伸びる（素手 7 段で 2,800 点）。強化の「賭け」は得点で伸びる。</p></div>
+<div class="box"><h3>HP・残機・コンティニュー</h3><ul><li>最大 HP は 3 人とも 30,000。強化「一撃必殺」を持つと 1 になる。</li><li>残機 3、コンティニュー 3 で始まる。残機が尽きるとコンティニューを聞かれ、続けると残機が 3 に戻って HP が全快する。</li><li>設定の「無限残機」がオン（最初はオン）のあいだは、倒れても残機が減らない。倒れたときの −500 点は引かれる。</li><li>2 人プレイでは残機・コンティニュー・得点を 2 人で共有する。</li></ul></div>
+<div class="box"><h3>設定</h3><table><tr><th>項目</th><th>最初の値</th></tr><tr><td>ストーリー</td><td class="num">オフ</td></tr><tr><td>BGM・効果音</td><td class="num">10</td></tr><tr><td>無限残機</td><td class="num">オン</td></tr><tr><td>画面の揺れ</td><td class="num">オン</td></tr><tr><td>ヒットストップ</td><td class="num">オン</td></tr><tr><td>入力表示</td><td class="num">オン</td></tr><tr><td>フルスクリーン</td><td class="num">オフ</td></tr></table><p class="note">タイトルの「設定」で変える。変えた時点で保存され、次に起動したときも残る。</p></div>
+</div>
+</main>
+<footer class="wrap">
+  <p>本作品は「<a href="https://nikechan.com/" target="_blank" rel="noopener">AIニケちゃん</a>」と「<a href="https://niku.studio/" target="_blank" rel="noopener">ニクちゃん</a>」の非公式ファンメイド作品です。原作・公式とは関係ありません。<br>
+  This is an unofficial fan-made work of <a href="https://nikechan.com/" target="_blank" rel="noopener">AI Nike-chan</a> and <a href="https://niku.studio/" target="_blank" rel="noopener">Niku-chan</a>. Not affiliated with or endorsed by the creator.</p>
+</footer>
+</body>
+</html>
