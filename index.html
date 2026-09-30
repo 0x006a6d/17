@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seventeen ダウンロード</title>
+<style>
+:root { --bg:#14161b; --panel:#1c1f27; --line:#2b2f3a; --fg:#e8e9ee; --dim:#9aa0b0; --accent:#d3a24a; --char:#c06a6a; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:"Yu Gothic UI","Meiryo",system-ui,sans-serif; line-height:1.7; }
+.wrap { max-width:1360px; margin:0 auto; padding:0 16px; }
+header { padding:22px 0 16px; border-bottom:1px solid var(--line); }
+nav { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+nav a { color:var(--dim); text-decoration:none; border:1px solid var(--line); border-radius:5px; padding:4px 12px; font-size:14px; }
+nav a.on { color:var(--fg); border-color:var(--char); background:#232735; }
+h1 { margin:0 0 6px; font-size:22px; font-weight:600; }
+h1 span { color:var(--char); }
+.lead { margin:0; color:var(--dim); font-size:14px; }
+main { padding:18px 0 60px; }
+h2.sec { font-size:16px; font-weight:600; color:var(--char); margin:26px 0 10px; }
+h2.sec:first-child { margin-top:0; }
+.grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr)); }
+.box { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; font-size:13.5px; }
+.box h3 { margin:0 0 8px; font-size:14px; color:var(--accent); font-weight:600; }
+.box ul { margin:0; padding-left:18px; }
+.box p { margin:0 0 6px; }
+.box p.note { color:var(--dim); font-size:12.5px; margin-top:8px; }
+.box a { color:var(--fg); }
+.dl { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr)); }
+.dl a { display:block; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; color:var(--fg); text-decoration:none; }
+.dl a:hover { border-color:var(--char); background:#232735; }
+.dl b { display:block; font-size:17px; font-weight:600; }
+.dl span { display:block; color:var(--dim); font-size:12.5px; margin-top:2px; }
+.shots { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr)); }
+.shots img { width:100%; height:auto; display:block; border:1px solid var(--line); border-radius:6px; }
+code { font-family:Consolas,"Courier New",monospace; font-size:12px; color:var(--dim); word-break:break-all; }
+footer { border-top:1px solid var(--line); color:var(--dim); font-size:12.5px; padding:18px 0 40px; }
+footer a { color:var(--fg); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav><a href="index.html" class="on">ダウンロード</a><a href="characters/nike.html">AIニケ</a><a href="characters/mikaze.html">ミカゼ</a><a href="characters/niku.html">ニク</a><a href="guide/cards.html">強化カード</a><a href="guide/rules.html">状態と決まり</a><a href="guide/coop.html">2人プレイ・トレーニング</a></nav>
+    <h1><span>Seventeen</span>（セブンティーン）</h1>
+    <p class="lead">Godot 製のベルトスクロール・アクション。AIニケ・ミカゼ・ニクの 3 人から選んで 6 面を進む。1 人プレイ、2 人プレイ、トレーニングがある。無料。</p>
+  </div>
+</header>
+<main class="wrap">
+<h2 class="sec">ダウンロード（v2.0.0-beta）</h2>
+<div class="dl">
+<a href="https://github.com/0x006a6d/17/releases/download/v2.0.0-beta/Seventeen-v2.0.0-beta-windows.zip"><b>Windows</b><span>Seventeen-v2.0.0-beta-windows.zip（824 MB）</span></a>
+<a href="https://github.com/0x006a6d/17/releases/download/v2.0.0-beta/Seventeen-v2.0.0-beta-macos.zip"><b>macOS</b><span>Seventeen-v2.0.0-beta-macos.zip（845 MB）</span></a>
+<a href="https://github.com/0x006a6d/17/releases/download/v2.0.0-beta/Seventeen-v2.0.0-beta-linux.zip"><b>Linux</b><span>Seventeen-v2.0.0-beta-linux.zip（815 MB）</span></a>
+</div>
+<div class="grid" style="margin-top:18px">
+<div class="box"><h3>起動のしかた</h3><ul><li>Windows: zip を展開し、<code>Seventeen.exe</code> を開く。<code>Seventeen.pck</code> を同じフォルダに置いたままにする。</li><li>macOS: zip を展開し、<code>Seventeen.app</code> を開く。署名していないので、初回は開けないと表示される。システム設定 → プライバシーとセキュリティで「このまま開く」を押す。</li><li>Linux: zip を展開し、<code>Seventeen.x86_64</code> を実行する。<code>Seventeen.pck</code> を同じフォルダに置いたままにする。</li></ul></div>
+<div class="box"><h3>動作環境</h3><ul><li>Windows・Linux は 64bit（x86_64）。Vulkan に対応した GPU が要る。</li><li>macOS は Intel と Apple シリコンの両方で動く（universal）。</li><li>キーボードかゲームパッドで遊ぶ。操作は上のタブの各キャラのページにある。</li></ul></div>
+<div class="box"><h3>内容についての注意</h3><p>武器（日本刀・銃）を使った戦闘と、流血の表現がある。</p></div>
+<div class="box"><h3>ファイルの確認</h3><p>SHA-256 は <a href="https://github.com/0x006a6d/17/releases/download/v2.0.0-beta/SHA256SUMS.txt">SHA256SUMS.txt</a> にある。</p><p><code>6e99aa8bca85a7e10bc2b7b3d6e80f50f059c35882c62507f56ad22b2e4d374b</code> windows<br><code>47f503e0fde359beb5832a7d9ce32a2006ca05610d813f2c81100054c80af3ce</code> macos<br><code>4703ce074de7f98d08fb4e5da97bc67a3c455bf6035806d089fbb44bdb8500df</code> linux</p><p class="note">過去の版は <a href="https://github.com/0x006a6d/17/releases">Releases</a> にある。</p></div>
+</div>
+<h2 class="sec">画面</h2>
+<div class="shots">
+<img src="images/shot-1-gun.jpg" alt="銃を撃つ場面" loading="lazy">
+<img src="images/shot-3-katana.jpg" alt="日本刀で斬る場面" loading="lazy">
+<img src="images/shot-2-punch.jpg" alt="素手で殴る場面" loading="lazy">
+</div>
+</main>
+<footer class="wrap">
+  <p>本作品は「<a href="https://nikechan.com/" target="_blank" rel="noopener">AIニケちゃん</a>」と「<a href="https://niku.studio/" target="_blank" rel="noopener">ニクちゃん</a>」の非公式ファンメイド作品です。原作・公式とは関係ありません。<br>
+  This is an unofficial fan-made work of <a href="https://nikechan.com/" target="_blank" rel="noopener">AI Nike-chan</a> and <a href="https://niku.studio/" target="_blank" rel="noopener">Niku-chan</a>. Not affiliated with or endorsed by the creator.</p>
+</footer>
+</body>
+</html>
